@@ -7,7 +7,7 @@ import Button from '@mui/joy/Button';
 
 export default function Home() {
   const [username, setUsername] = useState('');
-  const [links, setLinks] = useState(['link 1', 'link 2']);
+  const [links, setLinks] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const checkBeacons = async (e) => {
