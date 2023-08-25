@@ -13,9 +13,10 @@ export async function GET(NextRequest) {
 
   const fetchLinks = async () => {
     const browser = await puppeteer.launch({
-      headless: 'new',
+      headless: false,
       args: ['--disable-setuid-sandbox'],
       ignoreHTTPSErrors: true,
+      devtools: true,
     });
     const page = await browser.newPage();
     await page.goto(url);
