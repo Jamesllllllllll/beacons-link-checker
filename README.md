@@ -6,7 +6,8 @@ Check for broken links on your Beacons profile page
 
 ## Current State
 
-It only works in Node with npm run start. Opens Chromium browser and returns links in terminal.
+- **Main** branch fetches and displays a user's page links in Node
+- **Development** branch is moving the functions to /api to be accessed via the front-end UI (in progress)
 
 ## To-Dos
 
