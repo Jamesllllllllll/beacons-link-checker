@@ -1,15 +1,17 @@
+import { NextRequest } from 'next/server';
+import { NextResponse } from 'next/server';
+
 const puppeteer = require('puppeteer');
 
-export default async function handler(req, res) {
-  
+export async function GET(NextRequest) {
   console.log('checkBeacon running...');
-  
-  const username = req.query.username;
+  const username = NextRequest.nextUrl.searchParams.get('username');
   console.log(`Username: ${username}`);
-  
+
   const url = `https://beacons.ai/${username}`;
   console.log(`URL: ${url}`);
-  
+
+  // Start the browser and create a browser instance
   async function startBrowser() {
     let browser;
     try {
@@ -40,21 +42,24 @@ export default async function handler(req, res) {
       return links;
     });
     console.log(urls);
-  }
+    return urls;
+  };
 
   const scrapeAll = async (browserInstance, url) => {
     let browser;
     try {
       browser = await browserInstance;
-      await scraper(browser, url);
+      const links = await scraper(browser, url);
+      return links;
     } catch (err) {
       console.log('Could not resolve the browser instance => ', err);
     }
-  }
+  };
 
-  //Start the browser and create a browser instance
   // Pass the browser instance to the scraper controller
   const links = await scrapeAll(browserInstance, url);
+  console.log(`Links: ${links}`)
+  // const JSONlinks = await JSON.stringify(links);
 
-  res.send(JSON.stringify(links));
+  return NextResponse.json(links);
 }
