@@ -17,7 +17,7 @@ export async function GET(NextRequest) {
     try {
       console.log('Opening the browser......');
       browser = await puppeteer.launch({
-        headless: 'new',
+        headless: true,
         args: ['--disable-setuid-sandbox'],
         ignoreHTTPSErrors: true,
       });
