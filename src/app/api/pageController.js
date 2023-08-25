@@ -1,4 +1,4 @@
-const pageScraper = require('./beaconsPageScraper');
+const pageScraper = require('./pageScraper');
 async function scrapeAll(browserInstance){
 	let browser;
 	try{

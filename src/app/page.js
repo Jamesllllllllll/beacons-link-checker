@@ -1,13 +1,13 @@
-'use client';
+'use client'
+import React from 'react';
 import { useState } from 'react';
-import FormControl from '@mui/joy/FormControl';
 import FormLabel from '@mui/joy/FormLabel';
 import Input from '@mui/joy/Input';
 import Button from '@mui/joy/Button';
 
 export default function Home() {
   const [username, setUsername] = useState('');
-  const [links, setLinks] = useState([]);
+  const [links, setLinks] = useState(['link 1', 'link 2']);
   const [isLoading, setIsLoading] = useState(false);
 
   const checkBeacons = async (e) => {
@@ -15,8 +15,10 @@ export default function Home() {
     console.log('submitting...');
     setIsLoading(true);
     try {
-      const response = await fetch(`/api/checkBeacon?username=${username}`);
-      console.log(response)
+      const response = await fetch(`/api/checkBeacon?username=${username}`, {
+        method: 'GET',
+      });
+      console.log(response);
       const data = await response.json();
       setLinks(data);
     } catch (err) {
@@ -30,7 +32,7 @@ export default function Home() {
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    <main className="flex min-h-screen flex-col items-center justify-around p-24">
       <div className="flex flex-col items-center justify-center">
         <form onSubmit={checkBeacons}>
           <FormLabel className="sr-only">Enter your Beacons username</FormLabel>
@@ -62,6 +64,11 @@ export default function Home() {
             // To-Do: Figure out why the background color is white without !important
           />
         </form>
+      </div>
+      <div>
+        {links.map((link) => (
+          <div key={link}>{link}</div>
+        ))}
       </div>
     </main>
   );
