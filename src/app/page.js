@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import React from 'react';
 import { useState } from 'react';
 import FormLabel from '@mui/joy/FormLabel';
@@ -9,11 +9,13 @@ export default function Home() {
   const [username, setUsername] = useState('');
   const [links, setLinks] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const checkBeacons = async (e) => {
     e.preventDefault();
     console.log('submitting...');
     setIsLoading(true);
+    setError(null);
     try {
       const response = await fetch(`/api/checkBeacon?username=${username}`, {
         method: 'GET',
@@ -22,7 +24,8 @@ export default function Home() {
       const data = await response.json();
       setLinks(data);
     } catch (err) {
-      console.log(`There was an error: ${err}`);
+      setError(err);
+      console.log(`There was an error: ${err.statusText}`);
     }
     setIsLoading(false);
   };
@@ -66,9 +69,15 @@ export default function Home() {
         </form>
       </div>
       <div>
+        {isLoading && (
+          <div>
+            <p style={{ color: '#fff' }}>Loading...</p>
+          </div>
+        )}
         {links.map((link) => (
           <div key={link}>{link}</div>
         ))}
+        {error && <div>There was an error: {error.statusText}</div>}
       </div>
     </main>
   );
