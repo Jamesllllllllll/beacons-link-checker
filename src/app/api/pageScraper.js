@@ -1,4 +1,4 @@
-const username = require('./checkBeacon');
+const { username } = require('./checkBeacon');
 
 const scraperObject = {
   url: `https://beacons.ai/${username}`,
