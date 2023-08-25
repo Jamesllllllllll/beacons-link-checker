@@ -15,4 +15,4 @@ It only works in Node with npm run start. Opens Chromium browser and returns lin
 
 ## Credit
 
-Foundations for this project came from [this article}(https://www.digitalocean.com/community/tutorials/how-to-scrape-a-website-using-node-js-and-puppeteer) by (Bello Gbadebo)[https://github.com/Gbahdeyboh]
+Foundations for this project came from [this article](https://www.digitalocean.com/community/tutorials/how-to-scrape-a-website-using-node-js-and-puppeteer) by [Bello Gbadebo](https://github.com/Gbahdeyboh)
