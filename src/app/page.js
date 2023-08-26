@@ -16,16 +16,21 @@ export default function Home() {
     console.log('submitting...');
     setIsLoading(true);
     setError(null);
+    setLinks([]);
     try {
       const response = await fetch(`/api/checkBeacon?username=${username}`, {
         method: 'GET',
       });
       console.log(response);
-      const data = await response.json();
-      setLinks(data);
+      if (response.ok) {
+        const data = await response.json();
+        setLinks(data);
+      } else {
+        setError(response.statusText);
+        throw new Error(response.statusText);
+      }
     } catch (err) {
-      setError(err);
-      console.log(`There was an error: ${err.statusText}`);
+      console.log(`There was an error: ${err}`);
     }
     setIsLoading(false);
   };
@@ -77,7 +82,7 @@ export default function Home() {
         {links.map((link) => (
           <div key={link}>{link}</div>
         ))}
-        {error && <div>There was an error: {error.statusText}</div>}
+        {error && <div>There was an error: {error}</div>}
       </div>
     </main>
   );

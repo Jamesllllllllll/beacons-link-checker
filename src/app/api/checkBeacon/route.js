@@ -1,24 +1,44 @@
-import { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
+const playwright = require('playwright-core');
+const chromium = require('chrome-aws-lambda');
 
-const puppeteer = require('puppeteer');
-
-export async function GET(NextRequest) {
+export async function GET(req) {
   console.log('checkBeacon running...');
-  const username = NextRequest.nextUrl.searchParams.get('username');
+  const username = req.nextUrl.searchParams.get('username');
   console.log(`Username: ${username}`);
 
   const url = `https://beacons.ai/${username}`;
+
+  if (!url) {
+    return res.status(400).send('A url query parameter is required');
+  }
+
   console.log(`URL: ${url}`);
 
   const fetchLinks = async () => {
-    const browser = await puppeteer.launch({
-      headless: false,
-      args: ['--disable-setuid-sandbox'],
-      ignoreHTTPSErrors: true,
-      devtools: true,
-    });
-    const page = await browser.newPage();
+    let browser;
+    try {
+      console.log('Opening the browser......');
+      browser = await playwright.chromium.launch({
+        headless:
+          process.env.NODE_ENV === 'production' ? chromium.headless : true,
+        args: [
+          ...chromium.args,
+          '--disable-setuid-sandbox',
+          '--font-render-hinting=none',
+        ],
+        executablePath:
+          process.env.NODE_ENV === 'production'
+            ? await awsChromium.executablePath
+            : 'C:\\Program Files\\Google\\Chrome\\Application\\chrome-win\\chrome.exe',
+        //
+        ignoreHTTPSErrors: true,
+      });
+    } catch (err) {
+      console.log('Could not create a browser instance => ', err);
+    }
+    const context = await browser.newContext();
+    const page = await context.newPage();
     await page.goto(url);
     const links = await page.$$eval('center.RowLink', (links) => {
       links = links.map((el) => el.querySelector('a').href);
