@@ -22,11 +22,12 @@ export async function GET(req) {
       browser = await playwright.chromium.launch({
         headless: chromium.headless,
           // process.env.NODE_ENV === 'production' ? chromium.headless : true,
-        args: [
-          ...chromium.args,
-          '--disable-setuid-sandbox',
-          '--font-render-hinting=none',
-        ],
+        args: chromium.args,
+        //  [
+        //   ...chromium.args,
+        //   '--disable-setuid-sandbox',
+        //   '--font-render-hinting=none',
+        // ],
         executablePath:
           process.env.NODE_ENV === 'production'
             ? await chromium.executablePath
