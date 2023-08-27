@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-const chromium = require('chrome-aws-lambda');
-const playwright = require('playwright-core');
+import chromium from 'chrome-aws-lambda';
+import playwright from 'playwright-core';
 
 export async function GET(req) {
   console.log('checkBeacon running...');
