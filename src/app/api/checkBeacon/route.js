@@ -1,8 +1,8 @@
-// import { NextResponse } from 'next/server';
-import { chromium } from 'chrome-aws-lambda';
+import { NextResponse } from 'next/server';
+import chromium from 'chrome-aws-lambda';
 import playwright from 'playwright-core';
 
-export async function GET(req, res) {
+export async function GET(req) {
   console.log('checkBeacon running...');
   const username = req.nextUrl.searchParams.get('username');
   console.log(`Username: ${username}`);
@@ -20,8 +20,8 @@ export async function GET(req, res) {
     try {
       console.log('Opening the browser......');
       browser = await playwright.chromium.launch({
-        headless:
-          process.env.NODE_ENV === 'production' ? chromium.headless : true,
+        headless: chromium.headless,
+          // process.env.NODE_ENV === 'production' ? chromium.headless : true,
         args: [
           ...chromium.args,
           '--disable-setuid-sandbox',
@@ -40,7 +40,6 @@ export async function GET(req, res) {
     // const context = await browser.newContext();
     const page = await browser.newPage();
     await page.goto(url);
-    console.log(page);
     const links = await page.$$eval('.RowLink', (links) => {
       links = links.map((el) => el.querySelector('a').href);
       return links;
@@ -52,7 +51,7 @@ export async function GET(req, res) {
 
   const links = await fetchLinks();
   console.log(`Links: ${links}`);
-  return res.json(links);
+  return NextResponse.json(links);
 }
 
 //   // Start the browser and create a browser instance
