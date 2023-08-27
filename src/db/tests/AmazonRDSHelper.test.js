@@ -1,7 +1,7 @@
 const amazonRDSHelper = require("../AmazonRDSHelper");
 
 describe("AmazonRDSHelper", () => {
-  test("Should be able to connect to RDS instance", async () => {
+  test("Ping RDS Instance", async () => {
     try {
       expect(await amazonRDSHelper.pingDb()).not.toBeUndefined();
     } catch (error) {

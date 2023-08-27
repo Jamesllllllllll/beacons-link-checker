@@ -8,13 +8,16 @@ class AmazonRDSHelper {
   #pgClient;
   #rdsEndPoint;
   #rdsPort;
+  #database;
   constructor() {
+    process.env.NODE_ENV == "production"
+      ? (this.#database = process.env.RDS_DATABASE_PROD)
+      : (this.#database = process.env.RDS_DATABASE_DEV);
     this.#rdsEndPoint = process.env.RDS_ENDPOINT;
     this.#rdsPort = process.env.RDS_PORT;
     this.#pgClient = new Client({
       user: process.env.RDS_USERNAME,
       host: this.#rdsEndPoint,
-      database: process.env.RDS_DATABASE,
       password: process.env.RDS_PASSWORD,
       port: this.#rdsPort,
     });
@@ -26,9 +29,6 @@ class AmazonRDSHelper {
     try {
       this.#pgClient.connect();
       const res = await this.#pgClient.query("SELECT 1");
-      console.log("<===========================>");
-      console.log(res);
-      console.log(res.rows[0]);
       return res.rows[0];
     } catch (error) {
       console.log(error);
