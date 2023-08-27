@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import chromium from 'chrome-aws-lambda';
-import playwright from 'playwright-core';
+import chromium from '@sparticuz/chromium-min';
+import puppeteer from 'puppeteer-core'
 
 export async function GET(req) {
   console.log('checkBeacon running...');
@@ -19,10 +19,10 @@ export async function GET(req) {
     let browser;
     try {
       console.log('Opening the browser......');
-      browser = await playwright.chromium.launch({
+      browser = await puppeteer.launch({
         headless: chromium.headless,
           // process.env.NODE_ENV === 'production' ? chromium.headless : true,
-        args: chromium.args,
+        args: [...chromium.args, '--disable-web-security'],
         //  [
         //   ...chromium.args,
         //   '--disable-setuid-sandbox',
@@ -30,7 +30,7 @@ export async function GET(req) {
         // ],
         executablePath:
           process.env.NODE_ENV === 'production'
-            ? await chromium.executablePath
+            ? await chromium.executablePath(`/chromium/chromium-pack.tar`)
             : 'C:\\Program Files\\Google\\Chrome\\Application\\chrome-win\\chrome.exe',
         //
         ignoreHTTPSErrors: true,
