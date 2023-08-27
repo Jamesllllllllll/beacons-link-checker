@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-const playwright = require('playwright-core');
 const chromium = require('chrome-aws-lambda');
+const playwright = require('playwright-core');
 
 export async function GET(req) {
   console.log('checkBeacon running...');
@@ -29,7 +29,7 @@ export async function GET(req) {
         ],
         executablePath:
           process.env.NODE_ENV === 'production'
-            ? await awsChromium.executablePath
+            ? await chromium.executablePath
             : 'C:\\Program Files\\Google\\Chrome\\Application\\chrome-win\\chrome.exe',
         //
         ignoreHTTPSErrors: true,
@@ -37,10 +37,11 @@ export async function GET(req) {
     } catch (err) {
       console.log('Could not create a browser instance => ', err);
     }
-    const context = await browser.newContext();
-    const page = await context.newPage();
+    // const context = await browser.newContext();
+    const page = await browser.newPage();
     await page.goto(url);
-    const links = await page.$$eval('center.RowLink', (links) => {
+    console.log(page)
+    const links = await page.$$eval('.RowLink', (links) => {
       links = links.map((el) => el.querySelector('a').href);
       return links;
     });
