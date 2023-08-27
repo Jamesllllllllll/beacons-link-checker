@@ -5,6 +5,9 @@
   "author": "https://github.com/Jamesllllllllll",
   "license": "MIT",
   "private": true,
+  "engines": {
+    "node": "^16"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
