@@ -1,8 +1,8 @@
-import { NextResponse } from 'next/server';
-import chromium from 'chrome-aws-lambda';
+// import { NextResponse } from 'next/server';
+import { chromium } from 'chrome-aws-lambda';
 import playwright from 'playwright-core';
 
-export async function GET(req) {
+export async function GET(req, res) {
   console.log('checkBeacon running...');
   const username = req.nextUrl.searchParams.get('username');
   console.log(`Username: ${username}`);
@@ -40,7 +40,7 @@ export async function GET(req) {
     // const context = await browser.newContext();
     const page = await browser.newPage();
     await page.goto(url);
-    console.log(page)
+    console.log(page);
     const links = await page.$$eval('.RowLink', (links) => {
       links = links.map((el) => el.querySelector('a').href);
       return links;
@@ -52,7 +52,7 @@ export async function GET(req) {
 
   const links = await fetchLinks();
   console.log(`Links: ${links}`);
-  return NextResponse.json(links);
+  return res.json(links);
 }
 
 //   // Start the browser and create a browser instance
