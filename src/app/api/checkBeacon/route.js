@@ -1,6 +1,5 @@
-import { NextResponse } from 'next/server';
 import chromium from '@sparticuz/chromium-min';
-import puppeteer from 'puppeteer-core'
+import puppeteer from 'puppeteer-core';
 
 export async function GET(req) {
   console.log('checkBeacon running...');
@@ -15,22 +14,19 @@ export async function GET(req) {
 
   console.log(`URL: ${url}`);
 
-  const fetchLinks = async () => {
+  // const fetchLinks = async () => {
     let browser;
     try {
       console.log('Opening the browser......');
       browser = await puppeteer.launch({
-        headless: chromium.headless,
-          // process.env.NODE_ENV === 'production' ? chromium.headless : true,
-        args: [...chromium.args, '--disable-web-security'],
-        //  [
-        //   ...chromium.args,
-        //   '--disable-setuid-sandbox',
-        //   '--font-render-hinting=none',
-        // ],
+        headless:
+          process.env.NODE_ENV === 'production' ? chromium.headless : true,
+        args: [...chromium.args, '--disable-web-security', '--font-render-hinting=none', '--disable-setuid-sandbox'],
         executablePath:
           process.env.NODE_ENV === 'production'
-            ? await chromium.executablePath(`https://beacons-link-checker-git-development-jamesllllllllll.vercel.app/chromium/chromium-pack.tar`)
+            ? await chromium.executablePath(
+                `https://beacons-link-checker-git-development-jamesllllllllll.vercel.app/chromium/chromium-pack.tar`
+              )
             : 'C:\\Program Files\\Google\\Chrome\\Application\\chrome-win\\chrome.exe',
         //
         ignoreHTTPSErrors: true,
@@ -38,21 +34,33 @@ export async function GET(req) {
     } catch (err) {
       console.log('Could not create a browser instance => ', err);
     }
-    // const context = await browser.newContext();
     const page = await browser.newPage();
-    await page.goto(url);
+    console.log(`Navigating to ${url}`);
+    await page.goto(url, { waitUntil: 'domcontentloaded' });
+    // const elementToWaitFor = 'div'
+    // console.log(`Waiting for a ${elementToWaitFor} tag or class...`)
+    // await page.waitForSelector(elementToWaitFor);
+    // console.log(`${elementToWaitFor} tag or class found, finding links...`)
+    const text = await page.$$eval('p', text => {
+      return text.map(p => p.textContent)
+    })
+    console.log(text)
     const links = await page.$$eval('.RowLink', (links) => {
       links = links.map((el) => el.querySelector('a').href);
       return links;
     });
+    const divs = await page.$$eval('div', divs => divs.length);
+    console.log(divs);
     console.log(links);
+    console.log('Closing browser...')
     await browser.close();
+    console.log('Browser closed.')
     return links;
-  };
+  // };
 
-  const links = await fetchLinks();
-  console.log(`Links: ${links}`);
-  return NextResponse.json(links);
+  // const links = await fetchLinks();
+  // console.log(`Links: ${links}`);
+  // return NextResponse.json(links);
 }
 
 //   // Start the browser and create a browser instance
