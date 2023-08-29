@@ -19,6 +19,7 @@ require('puppeteer-extra-plugin-stealth/evasions/sourceurl')
 require('puppeteer-extra-plugin-stealth/evasions/user-agent-override')
 require('puppeteer-extra-plugin-stealth/evasions/webgl.vendor')
 require('puppeteer-extra-plugin-stealth/evasions/window.outerdimensions')
+require('puppeteer-extra-plugin-user-preferences')
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 // All the requires from solution: https://github.com/vercel/pkg/issues/910#issuecomment-926881455
 
