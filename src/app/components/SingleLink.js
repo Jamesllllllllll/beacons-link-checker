@@ -2,10 +2,11 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-// import styles from './SingleLink.module.css'
+import styles from './SingleLink.module.css';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 export default function SingleLink({ url }) {
-  const [status, setStatus] = useState(null);
+  const [status, setStatus] = useState('Checking Link-purple');
   const Badge = () => {
     let message;
     switch (status) {
@@ -35,9 +36,8 @@ export default function SingleLink({ url }) {
     }
     return (
       <img
-        // className={styles.badge}
         src={`https://img.shields.io/badge/Status: ${status}-${message}`}
-        className="h-5"
+        className={styles.badge}
         alt={status}
       />
     );
@@ -59,20 +59,22 @@ export default function SingleLink({ url }) {
   }, [url]);
 
   return (
-    <div class="flex flex-row justify-between items-center flex-wrap gap-8 my-4" key={url}>
+    <div
+      class="flex flex-row justify-between items-center flex-wrap gap-8 my-4"
+      key={url}
+    >
       <Link href={url} key={url}>
         {url}
       </Link>
-      {status === 'Checking Link-purple' ? (
-        <img
-          // className={styles.badge}
-          src={`https://img.shields.io/badge/Status: - Checking Link-purple`}
-          height="20px"
-          alt={status}
-        />
-      ) : (
-        <Badge />
-      )}
+        {status === 'Checking Link-purple' ? (
+            <img
+              className={styles.badge}
+              src={`https://img.shields.io/badge/Status: - Checking Link-purple`}
+              alt={status}
+            />
+        ) : (
+          <Badge />
+        )}
     </div>
   );
 }

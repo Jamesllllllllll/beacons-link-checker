@@ -84,9 +84,9 @@ export default function Home() {
             // To-Do: Figure out why the background color is white without !important
           />
         </form>
-        <div className="w-11/12">
+        <div className="flex flex-col w-11/12">
           {isLoading && (
-            <div>
+            <div className="self-center">
               <Loading />
             </div>
           )}

@@ -29,28 +29,28 @@
 .blueOrbit {
 	width: 165px;
 	height: 165px;
-  border: 1px solid #91daffa5;
+  border: 1px solid #d391ffa5;
   -webkit-animation: spin3D 3s linear .2s infinite;
 }
 
 .greenOrbit {
 	width: 120px;
 	height: 120px;
-  border: 1px solid #91ffbfa5;
+  border: 1px solid #9891ffa5;
   -webkit-animation: spin3D 2s linear 0s infinite;
 }
 
 .redOrbit {
 	width: 90px;
 	height: 90px;
-  border: 1px solid #ffca91a5;
-  -webkit-animation: spin3D 1s linear 0s infinite;
+  border: 1px solid #ff91f6a5;
+  -webkit-animation: spin3D 1.25s linear 0s infinite;
 }
 
 .whiteOrbit {
 	width: 60px;
 	height: 60px;
-  border: 2px solid #ffffff;
+  border: 2px solid #85e2e6;
   -webkit-animation: spin3D 10s linear 0s infinite;
 }
 
