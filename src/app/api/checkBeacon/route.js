@@ -65,11 +65,8 @@ export async function GET(req, res) {
   }
   const page = await browser.newPage();
   console.log(`Navigating to ${url}`);
-  await page.goto(url, { waitUntil: 'domcontentloaded' }); 
-  const text = await page.$$eval('div', (text) => {
-    return text.map(el => el.textContent);
-  });
-  console.log(text);
+  await page.goto(url); 
+  
   const links = await page.$$eval('.RowLink', (links) => {
     links = links.map((el) => el.querySelector('a').href);
     return links;
