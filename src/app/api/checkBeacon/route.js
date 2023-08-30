@@ -1,5 +1,6 @@
 // import chromium from '@sparticuz/chromium-min';
 import { NextResponse } from 'next/server';
+require('puppeteer-extra-plugin-user-preferences')
 const puppeteer = require('puppeteer-extra');
 const chromium = require('@sparticuz/chromium-min');
 require('puppeteer-extra-plugin-stealth/evasions/chrome.app')
