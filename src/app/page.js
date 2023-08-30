@@ -1,11 +1,13 @@
 'use client';
-import React from 'react';
+import React, { createRef } from 'react';
 import { useState } from 'react';
 import FormLabel from '@mui/joy/FormLabel';
 import Input from '@mui/joy/Input';
 import Button from '@mui/joy/Button';
+import Sheet from '@mui/joy/Sheet';
 import SingleLink from './components/SingleLink';
 import Loading from './components/Loading';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 export default function Home() {
   const [username, setUsername] = useState('');
@@ -42,21 +44,29 @@ export default function Home() {
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-around p-24">
-      <div className="flex flex-col items-center justify-center">
+    <main className="flex min-h-screen justify-center min-height-screen py-24 gap-12">
+      <Sheet
+        variant="outlined"
+        color="neutral"
+        className="flex flex-col items-center justify-start p-16 gap-8 w-11/12 lg:w-3/4"
+        sx={{ p: 4 }}
+      >
         <form onSubmit={checkBeacons}>
           <FormLabel className="sr-only">Enter your Beacons username</FormLabel>
           <Input
+            label="Your Beacons Username"
             placeholder="Your Beacons Username"
             variant="outlined"
             color="primary"
             sx={{
+              '--Input-focusedInset': 'var(--any, )',
+              '--Input-focusedThickness': '0.25rem',
+              '--Input-focusedHighlight': 'rgba(13,110,253,.25)',
               '&::before': {
-                display: 'none',
+                transition: 'box-shadow .15s ease-in-out',
               },
               '&:focus-within': {
-                outline: '0px',
-                outlineOffset: '0px',
+                borderColor: '#86b7fe',
               },
             }}
             value={username}
@@ -74,18 +84,29 @@ export default function Home() {
             // To-Do: Figure out why the background color is white without !important
           />
         </form>
-      </div>
-      <div>
-        {isLoading && (
-          <div>
-            <Loading />
-          </div>
-        )}
-          {links.map((link) => (
-            <SingleLink key={link} url={link} />
-          ))}
-        {error && <div>There was an error: {error}</div>}
-      </div>
+        <div className="w-11/12">
+          {isLoading && (
+            <div>
+              <Loading />
+            </div>
+          )}
+          {links.length > 0 && (
+            <h2 className="text-xl font-semibold">Your Beacons Links:</h2>
+          )}
+          <TransitionGroup>
+            {links.map((link) => (
+              <CSSTransition
+                key={link}
+                timeout={500}
+                classNames="item"
+              >
+                <SingleLink key={link} url={link} />
+              </CSSTransition>
+            ))}
+          </TransitionGroup>
+          {error && <div>There was an error: {error}</div>}
+        </div>
+      </Sheet>
     </main>
   );
 }

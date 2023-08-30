@@ -59,7 +59,7 @@ export default function SingleLink({ url }) {
   }, [url]);
 
   return (
-    <div class="flex flex-row justify-between items-center gap-8 my-4" key={url}>
+    <div class="flex flex-row justify-between items-center flex-wrap gap-8 my-4" key={url}>
       <Link href={url} key={url}>
         {url}
       </Link>

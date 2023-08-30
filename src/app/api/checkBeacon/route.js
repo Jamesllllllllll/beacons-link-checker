@@ -70,10 +70,8 @@ export async function GET(req, res) {
     links = links
       .map((el) => el.querySelector('a').href)
       .filter((link) => !link.startsWith('https://beacons'));
-    console.log(links);
     return links;
   });
-  console.log(links);
   // console.log('Closing browser...');
   // await browser.close();
   // console.log('Browser closed.');
