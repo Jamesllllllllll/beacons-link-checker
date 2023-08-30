@@ -95,11 +95,7 @@ export default function Home() {
           )}
           <TransitionGroup>
             {links.map((link) => (
-              <CSSTransition
-                key={link}
-                timeout={500}
-                classNames="item"
-              >
+              <CSSTransition key={link} timeout={500} classNames="item">
                 <SingleLink key={link} url={link} />
               </CSSTransition>
             ))}
