@@ -46,8 +46,7 @@ a:hover {
   opacity: 1;
 }
 .item-exit-active {
-  opacity: 0;
-  transition: opacity 500ms ease-in;
+  display: none;
 }
 
 /* sr-only (screen reader only) class from here: https://css-tricks.com/inclusively-hidden/ */
