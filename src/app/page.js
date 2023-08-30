@@ -81,9 +81,9 @@ export default function Home() {
             <Loading />
           </div>
         )}
-        {links.map((link) => (
-          <SingleLink key={link} url={link} />
-        ))}
+          {links.map((link) => (
+            <SingleLink key={link} url={link} />
+          ))}
         {error && <div>There was an error: {error}</div>}
       </div>
     </main>

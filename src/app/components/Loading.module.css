@@ -1,3 +1,5 @@
+/* Credit: https://codepen.io/AlexWarnes/pen/jXYYKL */
+
 @keyframes spin3D {
   from {
     transform: rotate3d(.5,.5,.5, 360deg);

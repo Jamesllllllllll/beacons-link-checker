@@ -64,10 +64,13 @@ export async function GET(req, res) {
   }
   const page = await browser.newPage();
   console.log(`Navigating to ${url}`);
-  await page.goto(url); 
-  
+  await page.goto(url);
+
   const links = await page.$$eval('.RowLink', (links) => {
-    links = links.map((el) => el.querySelector('a').href);
+    links = links
+      .map((el) => el.querySelector('a').href)
+      .filter((link) => !link.startsWith('https://beacons'));
+    console.log(links);
     return links;
   });
   console.log(links);
