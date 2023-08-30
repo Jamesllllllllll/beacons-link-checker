@@ -27,11 +27,9 @@ export default function Home() {
         setLinks(data);
       } else {
         setError(response.statusText);
-        console.log('Error in IF statement');
         throw new Error(response.statusText);
       }
     } catch (err) {
-      console.log('Error in the TRY/CATCH statement');
       console.log(`There was an error: ${err}`);
     }
     setIsLoading(false);

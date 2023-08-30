@@ -1,27 +1,27 @@
 // import chromium from '@sparticuz/chromium-min';
 import { NextResponse } from 'next/server';
 // #region REQUIRE CITY
-require('puppeteer-extra-plugin-user-data-dir')
-require('puppeteer-extra-plugin-user-preferences')
+require('puppeteer-extra-plugin-user-data-dir');
+require('puppeteer-extra-plugin-user-preferences');
 const puppeteer = require('puppeteer-extra');
 const chromium = require('@sparticuz/chromium-min');
-require('puppeteer-extra-plugin-stealth/evasions/chrome.app')
-require('puppeteer-extra-plugin-stealth/evasions/chrome.csi')
-require('puppeteer-extra-plugin-stealth/evasions/chrome.loadTimes')
-require('puppeteer-extra-plugin-stealth/evasions/chrome.runtime')
-require('puppeteer-extra-plugin-stealth/evasions/defaultArgs') // pkg warned me this one was missing
-require('puppeteer-extra-plugin-stealth/evasions/iframe.contentWindow')
-require('puppeteer-extra-plugin-stealth/evasions/media.codecs')
-require('puppeteer-extra-plugin-stealth/evasions/navigator.hardwareConcurrency')
-require('puppeteer-extra-plugin-stealth/evasions/navigator.languages')
-require('puppeteer-extra-plugin-stealth/evasions/navigator.permissions')
-require('puppeteer-extra-plugin-stealth/evasions/navigator.plugins')
-require('puppeteer-extra-plugin-stealth/evasions/navigator.vendor')
-require('puppeteer-extra-plugin-stealth/evasions/navigator.webdriver')
-require('puppeteer-extra-plugin-stealth/evasions/sourceurl')
-require('puppeteer-extra-plugin-stealth/evasions/user-agent-override')
-require('puppeteer-extra-plugin-stealth/evasions/webgl.vendor')
-require('puppeteer-extra-plugin-stealth/evasions/window.outerdimensions')
+require('puppeteer-extra-plugin-stealth/evasions/chrome.app');
+require('puppeteer-extra-plugin-stealth/evasions/chrome.csi');
+require('puppeteer-extra-plugin-stealth/evasions/chrome.loadTimes');
+require('puppeteer-extra-plugin-stealth/evasions/chrome.runtime');
+require('puppeteer-extra-plugin-stealth/evasions/defaultArgs'); // pkg warned me this one was missing
+require('puppeteer-extra-plugin-stealth/evasions/iframe.contentWindow');
+require('puppeteer-extra-plugin-stealth/evasions/media.codecs');
+require('puppeteer-extra-plugin-stealth/evasions/navigator.hardwareConcurrency');
+require('puppeteer-extra-plugin-stealth/evasions/navigator.languages');
+require('puppeteer-extra-plugin-stealth/evasions/navigator.permissions');
+require('puppeteer-extra-plugin-stealth/evasions/navigator.plugins');
+require('puppeteer-extra-plugin-stealth/evasions/navigator.vendor');
+require('puppeteer-extra-plugin-stealth/evasions/navigator.webdriver');
+require('puppeteer-extra-plugin-stealth/evasions/sourceurl');
+require('puppeteer-extra-plugin-stealth/evasions/user-agent-override');
+require('puppeteer-extra-plugin-stealth/evasions/webgl.vendor');
+require('puppeteer-extra-plugin-stealth/evasions/window.outerdimensions');
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 // All the requires from solution: https://github.com/vercel/pkg/issues/910#issuecomment-926881455
 
@@ -36,8 +36,11 @@ export async function GET(req, res) {
 
   const url = `https://beacons.ai/${username}`;
 
-  if (url === 'https://beacons.ai/') {
-    return res.status(400).send('A url query parameter is required');
+  if (!username) {
+    return NextResponse.json(
+      { error: 'Bad request' },
+      { status: 400, statusText: 'Username not provided' }
+    );
   }
 
   console.log(`URL: ${url}`);
