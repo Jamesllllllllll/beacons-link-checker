@@ -4,6 +4,7 @@ import { useState } from 'react';
 import FormLabel from '@mui/joy/FormLabel';
 import Input from '@mui/joy/Input';
 import Button from '@mui/joy/Button';
+import SingleLink from './components/SingleLink';
 
 export default function Home() {
   const [username, setUsername] = useState('');
@@ -80,7 +81,7 @@ export default function Home() {
           </div>
         )}
         {links.map((link) => (
-          <div key={link}>{link}</div>
+          <SingleLink key={link} url={link} />
         ))}
         {error && <div>There was an error: {error}</div>}
       </div>
