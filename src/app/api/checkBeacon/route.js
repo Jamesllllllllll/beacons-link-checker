@@ -1,5 +1,6 @@
 // import chromium from '@sparticuz/chromium-min';
 import { NextResponse } from 'next/server';
+// #region REQUIRE CITY
 require('puppeteer-extra-plugin-user-data-dir')
 require('puppeteer-extra-plugin-user-preferences')
 const puppeteer = require('puppeteer-extra');
@@ -23,6 +24,8 @@ require('puppeteer-extra-plugin-stealth/evasions/webgl.vendor')
 require('puppeteer-extra-plugin-stealth/evasions/window.outerdimensions')
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 // All the requires from solution: https://github.com/vercel/pkg/issues/910#issuecomment-926881455
+
+// #endregion
 
 puppeteer.use(StealthPlugin());
 
@@ -59,7 +62,7 @@ export async function GET(req, res) {
   }
   const page = await browser.newPage();
   console.log(`Navigating to ${url}`);
-  await page.goto(url, { waitUntil: 'domcontentloaded' });
+  await page.goto(url); // { waitUntil: 'domcontentloaded' }
   const links = await page.$$eval('.RowLink', (links) => {
     links = links.map((el) => el.querySelector('a').href);
     return links;
