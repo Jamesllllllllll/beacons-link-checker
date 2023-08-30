@@ -5,6 +5,7 @@ import FormLabel from '@mui/joy/FormLabel';
 import Input from '@mui/joy/Input';
 import Button from '@mui/joy/Button';
 import SingleLink from './components/SingleLink';
+import Loading from './components/Loading';
 
 export default function Home() {
   const [username, setUsername] = useState('');
@@ -77,7 +78,7 @@ export default function Home() {
       <div>
         {isLoading && (
           <div>
-            <p style={{ color: '#fff' }}>Loading...</p>
+            <Loading />
           </div>
         )}
         {links.map((link) => (
