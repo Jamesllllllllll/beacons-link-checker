@@ -45,7 +45,6 @@ export async function GET(req, res) {
 
   console.log(`URL: ${url}`);
 
-  // const fetchLinks = async () => {
   let browser;
   try {
     console.log('Opening the browser......');
