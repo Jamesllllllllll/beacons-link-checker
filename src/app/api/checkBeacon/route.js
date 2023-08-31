@@ -36,12 +36,12 @@ export async function GET(req, res) {
 
   const url = `https://beacons.ai/${username}`;
 
-  if (!username) {
-    return NextResponse.json(
-      { error: 'Bad request' },
-      { status: 400, statusText: 'Username not provided' }
-    );
-  }
+  // if (!username) {
+  //   return NextResponse.json(
+  //     { error: 'Bad request' },
+  //     { status: 400, statusText: 'Username not provided' }
+  //   );
+  // }
 
   // console.log(`URL: ${url}`);
   // const response = await fetch(url, { next: { revalidate: 3600 } });
