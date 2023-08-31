@@ -1,5 +1,5 @@
 'use client';
-import React, { createRef } from 'react';
+import React from 'react';
 import { useState } from 'react';
 import FormLabel from '@mui/joy/FormLabel';
 import Input from '@mui/joy/Input';
@@ -8,6 +8,7 @@ import Sheet from '@mui/joy/Sheet';
 import SingleLink from './components/SingleLink';
 import Loading from './components/Loading';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import styles from './Page.module.css';
 
 export default function Home() {
   const [username, setUsername] = useState('');
@@ -73,13 +74,19 @@ export default function Home() {
             onChange={handleChange}
             onSubmit={checkBeacons}
             endDecorator={
-              <Button
-                onClick={checkBeacons}
-                variant="solid"
-                sx={{ backgroundColor: '#185EA5 !important' }}
-              >
-                Go
-              </Button>
+              <div className={styles.searchButtonContainer}>
+                <div className={styles.searchButtonInner}>
+                  <div className={styles.searchButtonGradient}> </div>
+                  <Button
+                    onClick={checkBeacons}
+                    variant="solid"
+                    sx={{ backgroundColor: '#185EA5 !important', position: 'relative' }}
+                    className={styles.searchButton}
+                  >
+                    Go
+                  </Button>
+                </div>
+              </div>
             }
             // To-Do: Figure out why the background color is white without !important
           />

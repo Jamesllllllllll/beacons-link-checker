@@ -58,13 +58,14 @@ export default function SingleLink({ url }) {
     checkLink(url);
   }, [url]);
 
+  const trimmedUrl = url.replace(/(^\w+:|^)\/\//, '');
   return (
     <div
       class="flex flex-row justify-between items-center flex-wrap gap-8 my-4"
       key={url}
     >
-      <Link href={url} key={url}>
-        {url}
+      <Link href={url} key={trimmedUrl}>
+        {trimmedUrl}
       </Link>
         {status === 'Checking Link-purple' ? (
             <img
