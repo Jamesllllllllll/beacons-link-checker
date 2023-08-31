@@ -43,15 +43,15 @@ export async function GET(req, res) {
     );
   }
 
-  console.log(`URL: ${url}`);
-  const response = await fetch(url, { next: { revalidate: 3600 } });
-  const { status } = response;
-  if (status !== 200) {
-    return NextResponse.json(
-      { error: 'Not Found' },
-      { status: 404, statusText: 'Profile not found' },
-    );
-  }
+  // console.log(`URL: ${url}`);
+  // const response = await fetch(url, { next: { revalidate: 3600 } });
+  // const { status } = response;
+  // if (status !== 200) {
+  //   return NextResponse.json(
+  //     { error: 'Not Found' },
+  //     { status: 404, statusText: 'Profile not found' },
+  //   );
+  // }
   let browser;
   try {
     console.log('Opening the browser......');
