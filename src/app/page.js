@@ -18,7 +18,6 @@ export default function Home() {
 
   const checkBeacons = async (e) => {
     e.preventDefault();
-    console.log('submitting...');
     setIsLoading(true);
     setError(null);
     setLinks([]);
@@ -26,7 +25,7 @@ export default function Home() {
       const response = await fetch(`/api/checkBeacon?username=${username}`, {
         method: 'GET',
       });
-      console.log(response);
+      console.log(response)
       if (response.ok) {
         const { data } = await response.json();
         setLinks(data);

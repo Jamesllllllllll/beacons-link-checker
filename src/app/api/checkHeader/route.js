@@ -10,6 +10,7 @@ export async function GET(req, res) {
     const { status } = response;
     return new NextResponse(JSON.stringify({ data: status }), { status: 200 });
   } catch (error) {
+    console.log(`Error: ${error}`)
     return NextResponse.json({ error: 'Internal Server Error' }, { status: error.cause.code })
   }
 }
