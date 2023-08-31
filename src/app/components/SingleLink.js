@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
@@ -61,7 +62,7 @@ export default function SingleLink({ url }) {
   const trimmedUrl = url.replace(/(^\w+:|^)\/\//, '');
   return (
     <div
-      class="flex flex-row justify-between items-center flex-wrap gap-8 my-4"
+      className="flex flex-row justify-between items-center flex-wrap gap-8 my-4"
       key={url}
     >
       <Link href={url} key={trimmedUrl}>
