@@ -43,15 +43,16 @@ export async function GET(req, res) {
     );
   }
 
-  // console.log(`URL: ${url}`);
-  // const response = await fetch(url, { next: { revalidate: 3600 } });
-  // const { status } = response;
-  // if (status !== 200) {
-  //   return NextResponse.json(
-  //     { error: 'Not Found' },
-  //     { status: 404, statusText: 'Profile not found' },
-  //   );
-  // }
+  console.log(`URL: ${url}`);
+  const response = await fetch(url, { next: { revalidate: 3600 } });
+  const { status } = response;
+  if (status !== 200) {
+    return NextResponse.json(
+      { error: 'Not Found' },
+      { status: 404, statusText: 'Profile not found' },
+    );
+  }
+  
   let browser;
   try {
     console.log('Opening the browser......');
@@ -72,7 +73,8 @@ export async function GET(req, res) {
   const page = await browser.newPage();
   console.log(`Navigating to ${url}`);
   await page.goto(url);
-
+  console.log('Arrived at ' + url)
+  // Try a try/catch block here - implement a pattern
   const links = await page.$$eval('.RowLink', (links) => {
     links = links
       .map((el) => el.querySelector('a').href)
@@ -83,5 +85,7 @@ export async function GET(req, res) {
   // console.log('Closing browser...');
   // await browser.close();
   // console.log('Browser closed.');
-  return new NextResponse(JSON.stringify({ data: links }), { status: 200 });
+  const responseData = new NextResponse(JSON.stringify({ data: links }), { status: 200 });
+  responseData.setHeader('Cache-Control', 'max-age=0, s-maxage=86400');
+  return responseData;
 }
