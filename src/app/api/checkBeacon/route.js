@@ -42,16 +42,19 @@ export async function GET(req, res) {
       { status: 400, statusText: 'Username not provided' }
     );
   }
-
   console.log(`URL: ${url}`);
-  const response = await fetch(url, { next: { revalidate: 3600 } });
-  const { status } = response;
-  if (status !== 200) {
-    return NextResponse.json(
-      { error: 'Not Found' },
-      { status: 404, statusText: 'Profile not found' },
-    );
-  }
+
+  // NOTE: This is currently always returning a 403: Forbidden
+  //
+  // const response = await fetch(url, { next: { revalidate: 3600 } });
+  // const { status } = response;
+  // if (status !== 200) {
+  //   console.log(status)
+  //   return NextResponse.json(
+  //     { error: 'Not Found' },
+  //     { status: 404, statusText: 'Profile not found' },
+  //   );
+  // }
   
   let browser;
   try {
@@ -63,8 +66,8 @@ export async function GET(req, res) {
           ? await chromium.executablePath(
               `https://github.com/Sparticuz/chromium/releases/download/v116.0.0/chromium-v116.0.0-pack.tar`
             )
-          : 'C:\\Program Files\\Google\\Chrome\\Application\\chrome-win\\chrome.exe',
-      headless: chromium.headless,
+          : process.env.BROWSER_PATH,
+      headless: false,
       ignoreHTTPSErrors: true,
     });
   } catch (err) {
@@ -86,6 +89,6 @@ export async function GET(req, res) {
   // await browser.close();
   // console.log('Browser closed.');
   const responseData = new NextResponse(JSON.stringify({ data: links }), { status: 200 });
-  responseData.setHeader('Cache-Control', 'max-age=0, s-maxage=86400');
+  // responseData.setHeader('Cache-Control', 'max-age=0, s-maxage=86400');
   return responseData;
 }
