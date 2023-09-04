@@ -67,7 +67,7 @@ export async function GET(req, res) {
               `https://github.com/Sparticuz/chromium/releases/download/v116.0.0/chromium-v116.0.0-pack.tar`
             )
           : process.env.BROWSER_PATH,
-      headless: false,
+      headless: chromium.headless,
       ignoreHTTPSErrors: true,
     });
   } catch (err) {
