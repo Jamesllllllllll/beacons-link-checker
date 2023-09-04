@@ -25,7 +25,7 @@ export default function Home() {
       const response = await fetch(`/api/checkBeacon?username=${username}`, {
         method: 'GET',
       });
-      console.log(response)
+      console.log(response);
       if (response.ok) {
         const { data } = await response.json();
         setLinks(data);
@@ -79,7 +79,10 @@ export default function Home() {
                   <Button
                     onClick={checkBeacons}
                     variant="solid"
-                    sx={{ backgroundColor: '#185EA5 !important', position: 'relative' }}
+                    sx={{
+                      backgroundColor: '#185EA5 !important',
+                      position: 'relative',
+                    }}
                     className={styles.searchButton}
                   >
                     Go
@@ -91,22 +94,33 @@ export default function Home() {
           />
         </form>
         <div className="flex flex-col w-11/12">
+          {/* Show loading state */}
           {isLoading && (
             <div className="self-center">
               <Loading />
             </div>
           )}
-          {links.length > 0 && (
+
+          {/* Show title if links exist */}
+          {links.length > 0 && links[0] !== 'No links found' && (
             <h2 className="text-xl font-semibold">Your Beacons Links:</h2>
           )}
-          <TransitionGroup>
+
+          {/* Show links, otherwise show none found */}
+          {links[0] !== 'No links found' ? (
+            <TransitionGroup>
             {links.map((link) => (
               <CSSTransition key={link} timeout={500} classNames="item">
                 <SingleLink key={link} url={link} />
               </CSSTransition>
             ))}
           </TransitionGroup>
+          ) : (
+            <p>No links found</p>
+          )}
+
           {error && <div>There was an error: {error}</div>}
+
         </div>
       </Sheet>
     </main>

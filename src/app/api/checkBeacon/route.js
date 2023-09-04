@@ -55,7 +55,7 @@ export async function GET(req, res) {
   //     { status: 404, statusText: 'Profile not found' },
   //   );
   // }
-  
+
   let browser;
   try {
     console.log('Opening the browser......');
@@ -73,22 +73,33 @@ export async function GET(req, res) {
   } catch (err) {
     console.log('Could not create a browser instance => ', err);
   }
+
   const page = await browser.newPage();
   console.log(`Navigating to ${url}`);
+
   await page.goto(url);
-  console.log('Arrived at ' + url)
+  console.log('Arrived at ' + url);
+  let links = [];
   // Try a try/catch block here - implement a pattern
-  const links = await page.$$eval('.RowLink', (links) => {
+  links = await page.$$eval('.RowLink', (links) => {
     links = links
       .map((el) => el.querySelector('a').href)
       .filter((link) => !link.startsWith('https://beacons'));
     return links;
   });
-  console.log(links);
-  // console.log('Closing browser...');
-  // await browser.close();
-  // console.log('Browser closed.');
-  const responseData = new NextResponse(JSON.stringify({ data: links }), { status: 200 });
+
+  if (!links.length) {
+    console.log('No links found!')
+    links.push('No links found');
+  }
+
+  console.log('Closing browser...');
+  await page.close();
+  console.log('Browser closed.');
+
+  const responseData = new NextResponse(JSON.stringify({ data: links }), {
+    status: 200,
+  });
   // responseData.setHeader('Cache-Control', 'max-age=0, s-maxage=86400');
   return responseData;
 }
