@@ -4,7 +4,7 @@ export async function GET(req, res) {
   const { searchParams } = new URL(req.url);
   const url = searchParams.get('url');
 
-  console.log(`URL: ${url}`)
+  console.log(`URL: ${url}`);
   try {
     const response = await fetch(url, { next: { revalidate: 3600 } });
     const { status } = response;
