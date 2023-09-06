@@ -46,7 +46,7 @@ describe('GET', () => {
   it('should be able to close browser', async () => {
     // Assemble
     const closed = true;
-    
+
     // Act
     const browser = await startBrowser();
     await goToSite(browser, 'https://google.com/');
