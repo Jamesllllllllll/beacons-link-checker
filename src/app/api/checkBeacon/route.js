@@ -1,10 +1,10 @@
-// import chromium from '@sparticuz/chromium-min';
+import chromium from '@sparticuz/chromium-min';
 import { NextResponse } from "next/server";
 // #region REQUIRE CITY
 require("puppeteer-extra-plugin-user-data-dir");
 require("puppeteer-extra-plugin-user-preferences");
 const puppeteer = require("puppeteer-extra");
-const chromium = require("@sparticuz/chromium-min");
+// const chromium = require("@sparticuz/chromium-min");
 require("puppeteer-extra-plugin-stealth/evasions/chrome.app");
 require("puppeteer-extra-plugin-stealth/evasions/chrome.csi");
 require("puppeteer-extra-plugin-stealth/evasions/chrome.loadTimes");
@@ -87,6 +87,12 @@ export async function GET(req, res) {
   const links = await fetchLinks(page);
 
   console.log('Closing browser...');
+  const pages = await browser.pages();
+  console.log(pages)
+  for (let i = 0; i < pages.length; i++) {
+    await pages[i].close();
+  }
+  console.log('All pages closed.');
   await browser.close();
   console.log('Browser closed.');
   return new NextResponse(JSON.stringify({ data: links }), { status: 200 });
