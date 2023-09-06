@@ -20,6 +20,7 @@ In order to test the front-end, you must define a local copy of Chromium to be e
 
 - Download a copy of [Chrome for Testing](https://googlechromelabs.github.io/chrome-for-testing/#dev)
 - Create or edit the `.env.local` file in the root of this repository and add the following:
+
 ```
 BROWSER_PATH='path/to/browser'
 ```
@@ -34,3 +35,9 @@ browser = await puppeteer.launch({
   ...
 })
 ```
+
+### Static Testing
+
+In order to prevent conflicts between Prettier and ESLint, the npm package [eslint-config-prettier](https://github.com/prettiereslint-config-prettier/) will be used. This package will turn off rules in Prettier that could conflict with ESLint. ESLint is also configured to interpret rule violations as errors. As in, the exit code will be 1 if a rule is broken.
+
+`.eslintrc.json` and `.prettierrc.json` are the configuration files for ESLint and Prettier, separately.
