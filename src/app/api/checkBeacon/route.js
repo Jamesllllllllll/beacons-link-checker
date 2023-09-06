@@ -32,7 +32,7 @@ puppeteer.use(StealthPlugin());
 export async function startBrowser() {
   let browser;
   try {
-    console.log('Opening the browser......');
+    // console.log('Opening the browser......');
     return (browser = await puppeteer.launch({
       args: [...chromium.args, '--hide-scrollbars', '--disable-web-security'],
       // @Jamesllllllllll, I noticed that the executable path points to the chromium folder in public. Shouldn't `.env.local` have the path to the chromium folder?
@@ -42,7 +42,7 @@ export async function startBrowser() {
               `https://beacons-link-checker-git-development-jamesllllllllll.vercel.app/chromium/chromium-pack.tar`
             )
           : 'C:\\Program Files\\Google\\Chrome\\Application\\chrome-win\\chrome.exe',
-      headless: chromium.headless,
+      headless: false, // chromium.headless
       ignoreHTTPSErrors: true,
     }));
   } catch (err) {
@@ -52,16 +52,26 @@ export async function startBrowser() {
 
 export async function goToSite(browser, url) {
   const page = await browser.newPage();
-  console.log(`Navigating to ${url}`);
+  // console.log(`Navigating to ${url}`);
   await page.goto(url);
-  console.log(await page.url());
+  // console.log(await page.url());
   return page;
+}
+
+export async function fetchLinks(page) {
+  const links = await page.$$eval('.RowLink', (links) => {
+    links = links
+      .map((el) => el.querySelector('a').href)
+      .filter((link) => !link.startsWith('https://beacons'));
+    return links;
+  });
+  return links;
 }
 
 export async function GET(req, res) {
   console.log('checkBeacon running...');
   const username = req.nextUrl.searchParams.get('username');
-  console.log(`Username: ${username}`);
+  // console.log(`Username: ${username}`);
 
   const url = `https://beacons.ai/${username}`;
 
@@ -72,20 +82,16 @@ export async function GET(req, res) {
     );
   }
 
-  console.log(`URL: ${url}`);
+  // console.log(`URL: ${url}`);
 
-  startBrowser();
-  
-  goToSite(url);
+  const browser = await startBrowser();
 
-  const links = await page.$$eval('.RowLink', (links) => {
-    links = links
-      .map((el) => el.querySelector('a').href)
-      .filter((link) => !link.startsWith('https://beacons'));
-    return links;
-  });
-  console.log('Closing browser...');
-  await page.close();
+  const page = await goToSite(browser, url);
+
+  const links = await fetchLinks(page);
+
+  // console.log('Closing browser...');
+  await browser.close();
   console.log('Browser closed.');
   return new NextResponse(JSON.stringify({ data: links }), { status: 200 });
 }
