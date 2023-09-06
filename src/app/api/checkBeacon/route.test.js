@@ -9,7 +9,11 @@ describe('GET', () => {
     const browser = await startBrowser();
     const page = await goToSite(browser, 'https://google.com');
     const currentPage = page.url();
-    page.close();
+    const pages = await browser.pages();
+    for (let i = 0; i < pages.length; i++) {
+      await pages[i].close();
+    }
+    await browser.close();
 
     // Assert
     expect(currentPage).toEqual(actualPage);
@@ -29,7 +33,11 @@ describe('GET', () => {
     const browser = await startBrowser();
     const page = await goToSite(browser, 'https://beacons.ai/duckytheyorkie');
     const links = await fetchLinks(page);
-    page.close();
+    const pages = await browser.pages();
+    for (let i = 0; i < pages.length; i++) {
+      await pages[i].close();
+    }
+    await browser.close();
 
     // Assert
     expect(links).toEqual(actualLinks);
