@@ -36,11 +36,15 @@ export default function SingleLink({ url }) {
         message = 'Checking Link-purple';
     }
     return (
-      <img
-        src={`https://img.shields.io/badge/Status: ${status}-${message}`}
-        className={styles.badge}
-        alt={status}
-      />
+      <div style={{ position: 'relative', width: '100%' }}>
+        <Image
+          src={`https://img.shields.io/badge/Status: ${status}-${message}`}
+          className={styles.badge}
+          alt={status}
+          layout="fill"
+          objectFit="contain"
+        />
+      </div>
     );
   };
   const checkLink = async (url) => {
@@ -68,15 +72,20 @@ export default function SingleLink({ url }) {
       <Link href={url} key={trimmedUrl}>
         {trimmedUrl}
       </Link>
-        {status === 'Checking Link-purple' ? (
-            <img
-              className={styles.badge}
-              src={`https://img.shields.io/badge/Status: - Checking Link-purple`}
-              alt={status}
-            />
-        ) : (
-          <Badge />
-        )}
+      {status === 'Checking Link-purple' ? (
+        <div style={{ position: 'relative', width: '100%' }}>
+          <Image
+            className={styles.badge}
+            // eslint-disable-next-line quotes
+            src={`https://img.shields.io/badge/Status: - Checking Link-purple`}
+            alt={status}
+            layout="fill"
+            objectFit="contain"
+          />
+        </div>
+      ) : (
+        <Badge />
+      )}
     </div>
   );
 }
