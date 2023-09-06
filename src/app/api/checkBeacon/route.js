@@ -32,16 +32,15 @@ puppeteer.use(StealthPlugin());
 export async function startBrowser() {
   let browser;
   try {
-    // console.log('Opening the browser......');
+    console.log('Opening the browser......');
     return (browser = await puppeteer.launch({
       args: [...chromium.args, "--hide-scrollbars", "--disable-web-security"],
-      // @Jamesllllllllll, I noticed that the executable path points to the chromium folder in public. Shouldn't `.env.local` have the path to the chromium folder?
       executablePath:
         process.env.NODE_ENV === "production"
           ? await chromium.executablePath(
               "https://beacons-link-checker-git-development-jamesllllllllll.vercel.app/chromium/chromium-pack.tar"
             )
-          : "C:\\Program Files\\Google\\Chrome\\Application\\chrome-win\\chrome.exe",
+          : process.env.BROWSER_PATH,
       headless: chromium.headless,
       ignoreHTTPSErrors: true,
     }));
@@ -52,9 +51,9 @@ export async function startBrowser() {
 
 export async function goToSite(browser, url) {
   const page = await browser.newPage();
-  // console.log(`Navigating to ${url}`);
+  console.log(`Navigating to ${url}`);
   await page.goto(url);
-  // console.log(await page.url());
+  console.log(`Arrived at ${await page.url()}`);
   return page;
 }
 
@@ -65,14 +64,13 @@ export async function fetchLinks(page) {
       .filter((link) => !link.startsWith('https://beacons'));
     return links;
   });
+  console.log(links);
   return links;
 }
 
 export async function GET(req, res) {
   console.log('checkBeacon running...');
   const username = req.nextUrl.searchParams.get('username');
-  // console.log(`Username: ${username}`);
-
   const url = `https://beacons.ai/${username}`;
 
   if (!username) {
@@ -82,15 +80,13 @@ export async function GET(req, res) {
     );
   }
 
-  // console.log(`URL: ${url}`);
-
   const browser = await startBrowser();
 
   const page = await goToSite(browser, url);
 
   const links = await fetchLinks(page);
 
-  // console.log('Closing browser...');
+  console.log('Closing browser...');
   await browser.close();
   console.log('Browser closed.');
   return new NextResponse(JSON.stringify({ data: links }), { status: 200 });
