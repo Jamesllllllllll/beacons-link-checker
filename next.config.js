@@ -12,6 +12,10 @@ const nextConfig = {
       'puppeteer-extra-plugin-user-data-dir',
     ],
   },
+  images: {
+    domains: ['https://img.shields.io/'],
+    unoptimized: true,
+  },
 };
 
 module.exports = nextConfig;

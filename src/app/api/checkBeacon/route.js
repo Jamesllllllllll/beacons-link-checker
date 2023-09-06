@@ -38,7 +38,7 @@ export async function startBrowser() {
       executablePath:
         process.env.NODE_ENV === "production"
           ? await chromium.executablePath(
-              "https://beacons-link-checker-git-development-jamesllllllllll.vercel.app/chromium/chromium-pack.tar"
+              `https://github.com/Sparticuz/chromium/releases/download/v116.0.0/chromium-v116.0.0-pack.tar`
             )
           : process.env.BROWSER_PATH,
       headless: chromium.headless,
