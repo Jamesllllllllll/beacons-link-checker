@@ -54,7 +54,7 @@ export async function GET(req, res) {
       executablePath:
         process.env.NODE_ENV === "production"
           ? await chromium.executablePath(
-              `https://beacons-link-checker-git-development-jamesllllllllll.vercel.app/chromium/chromium-pack.tar`
+              "https://beacons-link-checker-git-development-jamesllllllllll.vercel.app/chromium/chromium-pack.tar"
             )
           : "C:\\Program Files\\Google\\Chrome\\Application\\chrome-win\\chrome.exe",
       headless: chromium.headless,
