@@ -80,7 +80,10 @@ export default function Home() {
                   <Button
                     onClick={checkBeacons}
                     variant="solid"
-                    sx={{ backgroundColor: '#185EA5 !important', position: 'relative' }}
+                    sx={{
+                      backgroundColor: '#185EA5 !important',
+                      position: 'relative',
+                    }}
                     className={styles.searchButton}
                   >
                     Go
