@@ -36,11 +36,20 @@ describe('GET', () => {
   });
 
   it('should be able to close browser', async () => {
+    // Assemble
+    const closed = true;
+    
+    // Act
     const browser = await startBrowser();
-    console.log(`Browser should be connected: ${browser.isConnected()}`)
-    const page = await goToSite(browser, 'https://google.com/');
-    await page.close();
-    console.log(`Browser should NOT be connected: ${JSON.stringify(page)}`)
-  });
+    await goToSite(browser, 'https://google.com/');
+    const pages = await browser.pages();
+    for (let i = 0; i < pages.length; i++) {
+      await pages[i].close();
+    }
+    await browser.close();
+    const browserClosed = !browser.isConnected();
 
+    // Assert
+    expect(browserClosed).toBe(closed);
+  });
 });
