@@ -1,5 +1,6 @@
 require("puppeteer-extra-plugin-user-data-dir");
 require("puppeteer-extra-plugin-user-preferences");
+// #region
 const puppeteer = require("puppeteer-extra");
 const chromium = require("@sparticuz/chromium-min");
 require("puppeteer-extra-plugin-stealth/evasions/chrome.app");
@@ -19,6 +20,7 @@ require("puppeteer-extra-plugin-stealth/evasions/sourceurl");
 require("puppeteer-extra-plugin-stealth/evasions/user-agent-override");
 require("puppeteer-extra-plugin-stealth/evasions/webgl.vendor");
 require("puppeteer-extra-plugin-stealth/evasions/window.outerdimensions");
+// #endregion
 const StealthPlugin = require("puppeteer-extra-plugin-stealth");
 puppeteer.use(StealthPlugin());
 
