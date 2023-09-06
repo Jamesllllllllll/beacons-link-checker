@@ -37,6 +37,7 @@ export default function SingleLink({ url }) {
     return (
       <div style={{ position: 'relative', width: '100%' }}>
         <Image
+          // eslint-disable-next-line quotes
           src={`https://img.shields.io/badge/Status: ${status}-${message}`}
           className={styles.badge}
           alt={status}
@@ -75,6 +76,7 @@ export default function SingleLink({ url }) {
         <div style={{ position: 'relative', width: '100%' }}>
           <Image
             className={styles.badge}
+            // eslint-disable-next-line quotes
             src={`https://img.shields.io/badge/Status: - Checking Link-purple`}
             alt={status}
             layout="fill"
