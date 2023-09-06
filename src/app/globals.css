@@ -34,7 +34,6 @@ a:hover {
 }
 
 /* Fade in list of links */
-
 .item-enter {
   opacity: 0;
 }
