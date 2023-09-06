@@ -67,15 +67,15 @@ export default function SingleLink({ url }) {
       <Link href={url} key={trimmedUrl}>
         {trimmedUrl}
       </Link>
-        {status === 'Checking Link-purple' ? (
-            <img
-              className={styles.badge}
-              src={`https://img.shields.io/badge/Status: - Checking Link-purple`}
-              alt={status}
-            />
-        ) : (
-          <Badge />
-        )}
+      {status === 'Checking Link-purple' ? (
+        <img
+          className={styles.badge}
+          src={`https://img.shields.io/badge/Status: - Checking Link-purple`}
+          alt={status}
+        />
+      ) : (
+        <Badge />
+      )}
     </div>
   );
 }
