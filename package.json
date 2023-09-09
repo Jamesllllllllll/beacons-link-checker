@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "node src/app/index.js",
+    "start": "next start",
     "lint": "next lint",
     "test": "jest"
   },

@@ -109,18 +109,17 @@ export default function Home() {
           {/* Show links, otherwise show none found */}
           {links[0] !== 'No links found' ? (
             <TransitionGroup>
-            {links.map((link) => (
-              <CSSTransition key={link} timeout={500} classNames="item">
-                <SingleLink key={link} url={link} />
-              </CSSTransition>
-            ))}
-          </TransitionGroup>
+              {links.map((link) => (
+                <CSSTransition key={link} timeout={500} classNames="item">
+                  <SingleLink key={link} url={link} />
+                </CSSTransition>
+              ))}
+            </TransitionGroup>
           ) : (
             <p>No links found</p>
           )}
 
           {error && <div>There was an error: {error}</div>}
-
         </div>
       </Sheet>
     </main>
