@@ -13,6 +13,8 @@ export async function GET(req, res) {
   let links;
   const linkStatuses = [];
   const linkWarning = [];
+  const linkError = [];
+  console.log(`linkError[0]: ${linkError[0]}`);
   const url = `${baseUrl}/api/checkBeacon?username=${username}`;
   try {
     console.log(`checkBeacon is checking: ${url}`);
@@ -34,9 +36,12 @@ export async function GET(req, res) {
             console.log(`Status: ${data}`);
             // 5. Add each status to an array of link statuses.
             linkStatuses.push({ url: url, status: data });
-            if (data !== 200) {
+            if (data === 403) {
               console.log(`Adding ${url} to linkWarning array`);
               linkWarning.push(url);
+            } else if (data !== 200) {
+              console.log(`Adding ${url} to linkError array`);
+              linkError.push(url);
             }
           } else {
             console.log(`checkHeader failed: ${response.statusText}`);
@@ -56,11 +61,21 @@ export async function GET(req, res) {
         from: 'james@jameskeezer.dev',
         subject: 'Beacons Link Status',
         html:
-          'You have links that are not working: <br /><ul>' +
-          linkWarning
-            .map((link) => `<a href="${link}">${link}</a><br />`)
-            .join('') +
-          '</ul>',
+          `${
+            linkError[0] !== undefined
+              ? 'These links may not be working: <br /><ul>' +
+                linkError.map((link) => `<a href="${link}">${link}</a><br />`)
+              : ''
+          }` +
+          `${
+            linkWarning[0] !== undefined
+              ? '</ul><br />You have links that have redirects: <br /><ul>' +
+                linkWarning
+                  .map((link) => `<a href="${link}">${link}</a><br />`)
+                  .join('') +
+                '</ul>'
+              : ''
+          }`,
       };
 
       sgMail
