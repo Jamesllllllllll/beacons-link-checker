@@ -37,12 +37,15 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 export async function GET(req, res) {
   // 1. Pull an array of daily users from the database
   // const dailyUsers = await db.dailyUsers.something?
+  // if (!dailyUsers || !dailyUsers.length) {
+  //   return;
+  // }
 
   // 2. Loop through each user and call the checkBeacon API route.
   for (let i = 0; i < mockDailyUsers.length; i++) {
     let links;
-    let linkStatuses = [];
-    let linkWarning = [];
+    const linkStatuses = [];
+    const linkWarning = [];
     try {
       const response = await fetch(
         `https://${process.env.VERCEL_URL}.vercel.app/api/checkBeacon?username=${mockDailyUsers[i].username}`,
@@ -72,14 +75,14 @@ export async function GET(req, res) {
                 linkWarning.push(data);
               }
             } else {
-              throw new Error(response.statusText);
+              console.log(response.statusText);
             }
           } catch (err) {
             console.log(`There was an error: ${err}`);
           }
         }
       } else {
-        throw new Error(response.statusText);
+        console.log(response.statusText);
       }
       if (linkWarning.length) {
         // 6. If there are any links with a status other than 200, it will send an email to the user.
@@ -99,9 +102,11 @@ export async function GET(req, res) {
           .catch((error) => {
             console.error(error);
           });
+        return msg;
       }
     } catch (err) {
       console.log(`There was an error: ${err}`);
+      return err;
     }
   }
 }
