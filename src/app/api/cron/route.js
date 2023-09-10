@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import sgMail from '@sendgrid/mail';
 
 // https://vercel.com/docs/cron-jobs#create-or-update-your-vercel.json-file.
 // Called by CRON job every monday at 6am UTC (in vercel.json: "schedule": "0 5 * * 1")
@@ -17,43 +18,28 @@ const mockDailyUsers = [
   {
     id: 1,
     username: 'james',
-    email: 'james@doe.com',
-    links: [
-      'https://www.google.com',
-      'https://www.facebook.com',
-      'https://www.twitter.com',
-    ],
+    email: 'jameskeezer+beaconstest1@gmail.com',
   },
   {
     id: 2,
-    username: 'ducktheyorkie',
-    email: 'ducky@1122334455.com',
-    links: [
-      'https://www.codecademy.com',
-      'https://www.github.com',
-      'https://www.stackoverflow.com',
-    ],
+    username: 'duckytheyorkie',
+    email: 'jameskeezer+beaconstest2@gmail.com',
   },
   {
     id: 3,
     username: 'arthurdent',
-    email: 'arthur@dent.com',
-    links: [
-      'https://www.hitchhikersguide.com',
-      'https://www.endoftheuniverse.com',
-      'https://www.lifetheuniverseandeverything.com',
-    ],
+    email: 'jameskeezer+beaconstest3@gmail.com',
   },
 ];
 
-const SENGRID_API_KEY = process.env.SENDGRID_API_KEY;
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 export async function GET(req, res) {
   // 1. Pull an array of daily users from the database
   // const dailyUsers = await db.dailyUsers.something?
 
   // 2. Loop through each user and call the checkBeacon API route.
-  for (i = 0; i < mockDailyUsers.length; i++) {
+  for (let i = 0; i < mockDailyUsers.length; i++) {
     let links;
     let linkStatuses = [];
     let linkWarning = [];
@@ -66,7 +52,7 @@ export async function GET(req, res) {
         const { data } = await response.json();
         links = data;
         // 4. Then loop through each link and call the checkHeader API route.
-        for (i = 0; i < links.length; i++) {
+        for (let i = 0; i < links.length; i++) {
           try {
             const response = await fetch(`/api/checkHeader?url=${links[i]}`);
             if (response.ok) {
@@ -89,7 +75,22 @@ export async function GET(req, res) {
       }
       if (linkWarning.length) {
         // 6. If there are any links with a status other than 200, it will send an email to the user.
-        // sendEmailorSomething(linkWarning, mockDailyUsers[i].email);
+
+        const msg = {
+          to: mockDailyUsers[i].email, 
+          from: 'james@jameskeezer.dev',
+          subject: 'Beacons Link Status',
+          text: `You have links that are not working: <br /><br /> ${linkWarning}`,
+        }
+
+        sgMail
+          .send(msg)
+          .then(() => {
+            console.log(`Email sent to ${mockDailyUsers[i].email}`);
+          })
+          .catch((error) => {
+            console.error(error);
+          })
       }
     } catch (err) {
       console.log(`There was an error: ${err}`);
