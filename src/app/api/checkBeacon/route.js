@@ -94,7 +94,6 @@ export async function GET(req, res) {
   console.log('Closing browser...');
 
   const pages = await browser.pages();
-
   for (let i = 0; i < pages.length; i++) {
     console.log(`Closing page: ${JSON.stringify(pages[i])}`);
     await pages[i].close();
