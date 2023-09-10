@@ -45,7 +45,7 @@ export async function GET(req, res) {
     let linkWarning = [];
     try {
       const response = await fetch(
-        `${process.env.URL}/api/checkBeacon?username=${mockDailyUsers[i].username}`
+        `https://${process.env.VERCEL_URL}.vercel.app/api/checkBeacon?username=${mockDailyUsers[i].username}`
       );
       if (response.ok) {
         // 3. The checkBeacon API route will return an array of links.
