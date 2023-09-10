@@ -1,10 +1,10 @@
-// import chromium from '@sparticuz/chromium-min';
+import chromium from '@sparticuz/chromium-min';
 import { NextResponse } from 'next/server';
 // #region REQUIRE CITY
 require('puppeteer-extra-plugin-user-data-dir');
 require('puppeteer-extra-plugin-user-preferences');
 const puppeteer = require('puppeteer-extra');
-const chromium = require('@sparticuz/chromium-min');
+// const chromium = require("@sparticuz/chromium-min");
 require('puppeteer-extra-plugin-stealth/evasions/chrome.app');
 require('puppeteer-extra-plugin-stealth/evasions/chrome.csi');
 require('puppeteer-extra-plugin-stealth/evasions/chrome.loadTimes');
@@ -29,37 +29,11 @@ const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 
 puppeteer.use(StealthPlugin());
 
-export async function GET(req, res) {
-  console.log('checkBeacon running...');
-  const username = req.nextUrl.searchParams.get('username');
-  console.log(`Username: ${username}`);
-
-  const url = `https://beacons.ai/${username}`;
-
-  if (!username) {
-    return NextResponse.json(
-      { error: 'Bad request' },
-      { status: 400, statusText: 'Username not provided' }
-    );
-  }
-  console.log(`URL: ${url}`);
-
-  // NOTE: This is currently always returning a 403: Forbidden
-  //
-  // const response = await fetch(url, { next: { revalidate: 3600 } });
-  // const { status } = response;
-  // if (status !== 200) {
-  //   console.log(status)
-  //   return NextResponse.json(
-  //     { error: 'Not Found' },
-  //     { status: 404, statusText: 'Profile not found' },
-  //   );
-  // }
-
+export async function startBrowser() {
   let browser;
   try {
     console.log('Opening the browser......');
-    browser = await puppeteer.launch({
+    return (browser = await puppeteer.launch({
       args: [...chromium.args, '--hide-scrollbars', '--disable-web-security'],
       executablePath:
         process.env.NODE_ENV === 'production'
@@ -69,37 +43,56 @@ export async function GET(req, res) {
           : process.env.BROWSER_PATH,
       headless: chromium.headless,
       ignoreHTTPSErrors: true,
-    });
+    }));
   } catch (err) {
     console.log('Could not create a browser instance => ', err);
   }
+}
 
+export async function goToSite(browser, url) {
   const page = await browser.newPage();
   console.log(`Navigating to ${url}`);
-
   await page.goto(url);
-  console.log('Arrived at ' + url);
-  let links = [];
-  // Try a try/catch block here - implement a pattern
-  links = await page.$$eval('.RowLink', (links) => {
+  console.log(`Arrived at ${await page.url()}`);
+  return page;
+}
+
+export async function fetchLinks(page) {
+  const links = await page.$$eval('.RowLink', (links) => {
     links = links
       .map((el) => el.querySelector('a').href)
       .filter((link) => !link.startsWith('https://beacons'));
     return links;
   });
+  console.log(links);
+  return links;
+}
 
-  if (!links.length) {
-    console.log('No links found!')
-    links.push('No links found');
+export async function GET(req, res) {
+  console.log('checkBeacon running...');
+  const username = req.nextUrl.searchParams.get('username');
+  const url = `https://beacons.ai/${username}`;
+
+  if (!username) {
+    return NextResponse.json(
+      { error: 'Bad request' },
+      { status: 400, statusText: 'Username not provided' }
+    );
   }
 
-  console.log('Closing browser...');
-  await page.close();
-  console.log('Browser closed.');
+  const browser = await startBrowser();
 
-  const responseData = new NextResponse(JSON.stringify({ data: links }), {
-    status: 200,
-  });
-  // responseData.setHeader('Cache-Control', 'max-age=0, s-maxage=86400');
-  return responseData;
+  const page = await goToSite(browser, url);
+
+  const links = await fetchLinks(page);
+
+  console.log('Closing browser...');
+  const pages = await browser.pages();
+  for (let i = 0; i < pages.length; i++) {
+    await pages[i].close();
+  }
+  console.log('All pages closed.');
+  await browser.close();
+  console.log('Browser closed.');
+  return new NextResponse(JSON.stringify({ data: links }), { status: 200 });
 }

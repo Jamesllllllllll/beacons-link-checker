@@ -43,6 +43,10 @@ export default function Home() {
     setUsername(e.target.value);
   };
 
+  const runCRON = () => {
+    fetch('/api/weeklyCron');
+  };
+
   return (
     <main className="flex min-h-screen justify-center min-height-screen py-24 gap-12">
       <Sheet
@@ -109,18 +113,22 @@ export default function Home() {
           {/* Show links, otherwise show none found */}
           {links[0] !== 'No links found' ? (
             <TransitionGroup>
-            {links.map((link) => (
-              <CSSTransition key={link} timeout={500} classNames="item">
-                <SingleLink key={link} url={link} />
-              </CSSTransition>
-            ))}
-          </TransitionGroup>
+              {links.map((link) => (
+                <CSSTransition key={link} timeout={500} classNames="item">
+                  <SingleLink key={link} url={link} />
+                </CSSTransition>
+              ))}
+            </TransitionGroup>
           ) : (
             <p>No links found</p>
           )}
 
           {error && <div>There was an error: {error}</div>}
-
+          {process.env.NODE_ENV === 'development' && (
+            <Button onClick={runCRON} variant="outlined">
+              Run CRON Job
+            </Button>
+          )}
         </div>
       </Sheet>
     </main>
