@@ -43,6 +43,10 @@ export default function Home() {
     setUsername(e.target.value);
   };
 
+  const runCRON = () => {
+    fetch('/api/weeklyCron');
+  };
+
   return (
     <main className="flex min-h-screen justify-center min-height-screen py-24 gap-12">
       <Sheet
@@ -120,6 +124,11 @@ export default function Home() {
           )}
 
           {error && <div>There was an error: {error}</div>}
+          {process.env.NODE_ENV === 'development' && (
+            <Button onClick={runCRON} variant="outlined">
+              Run CRON Job
+            </Button>
+          )}
         </div>
       </Sheet>
     </main>

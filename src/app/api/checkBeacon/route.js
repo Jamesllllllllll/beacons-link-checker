@@ -88,7 +88,6 @@ export async function GET(req, res) {
 
   console.log('Closing browser...');
   const pages = await browser.pages();
-  console.log(pages);
   for (let i = 0; i < pages.length; i++) {
     await pages[i].close();
   }
