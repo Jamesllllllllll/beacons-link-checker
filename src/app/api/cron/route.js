@@ -45,7 +45,10 @@ export async function GET(req, res) {
     let linkWarning = [];
     try {
       const response = await fetch(
-        `https://${process.env.VERCEL_URL}.vercel.app/api/checkBeacon?username=${mockDailyUsers[i].username}`
+        `https://${process.env.VERCEL_URL}.vercel.app/api/checkBeacon?username=${mockDailyUsers[i].username}`,
+        {
+          method: 'GET',
+        }
       );
       if (response.ok) {
         // 3. The checkBeacon API route will return an array of links.
@@ -54,7 +57,12 @@ export async function GET(req, res) {
         // 4. Then loop through each link and call the checkHeader API route.
         for (let i = 0; i < links.length; i++) {
           try {
-            const response = await fetch(`/api/checkHeader?url=${links[i]}`);
+            const response = await fetch(
+              `https://${process.env.VERCEL_URL}.vercel.app/api/checkHeader?url=${links[i]}`,
+              {
+                method: 'GET',
+              }
+            );
             if (response.ok) {
               const { data } = await response.json();
               console.log(data);
@@ -77,11 +85,11 @@ export async function GET(req, res) {
         // 6. If there are any links with a status other than 200, it will send an email to the user.
 
         const msg = {
-          to: mockDailyUsers[i].email, 
+          to: mockDailyUsers[i].email,
           from: 'james@jameskeezer.dev',
           subject: 'Beacons Link Status',
           text: `You have links that are not working: <br /><br /> ${linkWarning}`,
-        }
+        };
 
         sgMail
           .send(msg)
@@ -90,7 +98,7 @@ export async function GET(req, res) {
           })
           .catch((error) => {
             console.error(error);
-          })
+          });
       }
     } catch (err) {
       console.log(`There was an error: ${err}`);
