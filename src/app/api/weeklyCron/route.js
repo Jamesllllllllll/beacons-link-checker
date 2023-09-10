@@ -23,12 +23,12 @@ const mockDailyUsers = [
   // {
   //   id: 2,
   //   username: 'duckytheyorkie',
-  //   email: 'jameskeezer+beaconstest2@gmail.com',
+  //   email: 'jameskeezer@gmail.com',
   // },
   // {
   //   id: 3,
   //   username: 'jimmy',
-  //   email: 'jameskeezer+beaconstest3@gmail.com',
+  //   email: 'jameskeezer@gmail.com',
   // },
 ];
 
@@ -50,14 +50,22 @@ export async function GET(req, res) {
     console.log(`CRON job checking: ${username}`);
     console.log(url);
     try {
-      const response = await fetch(url, { method: 'GET' });
-      if (response.ok) {
-        // weeklyCron will be evoked for each user checked in this loop
-        // An email will be sent if they have any broken links
-        console.log(`Response OK! - response.ok = ${response.ok}`);
-      } else {
-        console.log(`There was an error: ${response.statusText}`);
-      }
+
+      // weeklyCron will be evoked for each user checked in this loop
+      // An email will be sent if they have any broken links
+      
+      fetch(url, { method: 'GET' });
+      console.log(`fetching ${url}`)
+      
+      // The await below is not necessary and would timeout when the user list gets long
+      //
+      // const response = await fetch(url, { method: 'GET' });
+      // if (response.ok) {
+      //   console.log(`Response OK! - response.ok = ${response.ok}`);
+      // } else {
+      //   console.log(`There was an error: ${response.statusText}`);
+      // }
+
     } catch (err) {
       console.log(`There was an error: ${err}`);
     }
