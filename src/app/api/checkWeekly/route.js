@@ -14,7 +14,6 @@ export async function GET(req, res) {
   const linkStatuses = [];
   const linkWarning = [];
   const linkError = [];
-  console.log(`linkError[0]: ${linkError[0]}`);
   const url = `${baseUrl}/api/checkBeacon?username=${username}`;
   try {
     console.log(`checkBeacon is checking: ${url}`);
@@ -29,7 +28,7 @@ export async function GET(req, res) {
         try {
           const response = await fetch(
             `${baseUrl}/api/checkHeader?url=${url}`,
-            { method: 'GET' }
+            { method: 'GET', cache: 'no-store' }
           );
           if (response.ok) {
             const { data } = await response.json();
@@ -61,6 +60,7 @@ export async function GET(req, res) {
         from: 'james@jameskeezer.dev',
         subject: 'Beacons Link Status',
         html:
+          `Report for Beacons user ${username} <br />` +
           `${
             linkError[0] !== undefined
               ? 'These links may not be working: <br /><ul>' +
