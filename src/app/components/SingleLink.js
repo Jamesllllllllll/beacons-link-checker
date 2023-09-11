@@ -81,6 +81,7 @@ export default function SingleLink({ url }) {
             alt={status}
             layout="fill"
             objectFit="contain"
+            height="20"
           />
         </div>
       ) : (
