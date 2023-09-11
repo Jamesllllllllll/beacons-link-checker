@@ -34,7 +34,7 @@ export async function startBrowser() {
   try {
     console.log('Opening the browser......');
     return (browser = await puppeteer.launch({
-      args: [...chromium.args, '--disable-web-security', '--no-sandbox','--single-process', '--no-zygote'],
+      args: [...chromium.args],
       executablePath:
         process.env.NODE_ENV === 'production'
           ? await chromium.executablePath(
