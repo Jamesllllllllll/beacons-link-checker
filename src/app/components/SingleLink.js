@@ -36,7 +36,7 @@ export default function SingleLink({ url }) {
         message = 'Checking Link-purple';
     }
     return (
-      <div style={{ position: 'relative', width: '100%' }}>
+      <div className="relative w-48 h-5">
         <Image
           src={`https://img.shields.io/badge/Status: ${status}-${message}`}
           className={styles.badge}
@@ -66,14 +66,14 @@ export default function SingleLink({ url }) {
   const trimmedUrl = url.replace(/(^\w+:|^)\/\//, '');
   return (
     <div
-      className="flex flex-row justify-between items-center flex-wrap gap-8 my-4"
+      className="flex flex-row justify-between items-center no-wrap gap-8 my-4"
       key={url}
     >
       <Link href={url} key={trimmedUrl}>
         {trimmedUrl}
       </Link>
       {status === 'Checking Link-purple' ? (
-        <div style={{ position: 'relative', width: '100%' }}>
+        <div className="relative w-full h-5">
           <Image
             className={styles.badge}
             // eslint-disable-next-line quotes
