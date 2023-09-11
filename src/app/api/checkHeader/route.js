@@ -8,9 +8,15 @@ export async function GET(req, res) {
   try {
     const response = await fetch(url, { next: { revalidate: 3600 } });
     const { status } = response;
-    return new NextResponse(JSON.stringify({ data: status }), { status: 200 });
+    return new NextResponse(JSON.stringify({ data: status }), {
+      status: 200,
+      cache: 'no-store',
+    });
   } catch (error) {
-    console.log(`Error: ${error}`)
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: error.cause.code })
+    console.log(`Error: ${error}`);
+    return NextResponse.json(
+      { error: 'Internal Server Error' },
+      { status: error.cause.code }
+    );
   }
 }
