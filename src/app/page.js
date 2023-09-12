@@ -6,7 +6,7 @@ import Input from '@mui/joy/Input';
 import Button from '@mui/joy/Button';
 import Sheet from '@mui/joy/Sheet';
 import SingleLink from './components/SingleLink';
-import Loading from './components/Loading';
+import LinearProgress from '@mui/joy/LinearProgress';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import styles from './Page.module.css';
 
@@ -52,7 +52,7 @@ export default function Home() {
       <Sheet
         variant="outlined"
         color="neutral"
-        className="flex flex-col items-center justify-start px-2 py-16 gap-8 bg-gradient-to-b from-purple-50 to-indigo-50 w-11/12 sm:p-16 lg:w-3/4"
+        className="flex flex-col items-center justify-start rounded-3xl shadow-lg px-2 py-16 gap-8 bg-gradient-to-b from-gray-50 to-slate-50 w-11/12 sm:p-16 lg:w-3/4"
         sx={{ p: 4 }}
       >
         <form onSubmit={checkBeacons}>
@@ -95,9 +95,15 @@ export default function Home() {
         <div className="flex flex-col gap-y-4 w-11/12">
           {/* Show loading state */}
           {isLoading && (
-            <div className="self-center">
-              <Loading />
-            </div>
+            // <div className="self-center">
+              <LinearProgress
+                color="primary"
+                determinate={false}
+                size="md"
+                variant="plain"
+                width="500px"
+              />
+            // </div>
           )}
 
           {/* Show title if links exist */}
