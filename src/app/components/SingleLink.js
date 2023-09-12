@@ -2,7 +2,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+import Card from '@mui/joy/Card';
 import styles from './SingleLink.module.css';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
@@ -36,15 +36,11 @@ export default function SingleLink({ url }) {
         message = 'Checking Link-purple';
     }
     return (
-      <div className="relative w-48 h-5">
-        <Image
-          src={`https://img.shields.io/badge/Status: ${status}-${message}`}
-          className={styles.badge}
-          alt={status}
-          layout="fill"
-          objectFit="contain"
-        />
-      </div>
+      <img
+        src={`https://img.shields.io/badge/${status}-${message}`}
+        className={styles.badge}
+        alt={status}
+      />
     );
   };
   const checkLink = async (url) => {
@@ -63,29 +59,26 @@ export default function SingleLink({ url }) {
     checkLink(url);
   }, [url]);
 
-  const trimmedUrl = url.replace(/(^\w+:|^)\/\//, '');
+  const trimURLstart = url.replace(/(^\w+:|^)\/\//, '');
+  let trimURLend = trimURLstart.search(/\/\d{3,}/g);
+  let trimmedURL = trimURLstart.slice(0, trimURLend)
+  trimmedURL = trimmedURL + '...';
+
   return (
-    <div
-      className="flex flex-row justify-between items-center no-wrap gap-8 my-4"
-      key={url}
-    >
-      <Link href={url} key={trimmedUrl}>
-        {trimmedUrl}
+    <Card orientation="horizontal" className=" justify-between my-8" key={url}>
+      <Link href={url} key={trimmedURL} className="break-all">
+        {trimmedURL}
       </Link>
       {status === 'Checking Link-purple' ? (
-        <div className="relative w-full h-5">
-          <Image
-            className={styles.badge}
-            // eslint-disable-next-line quotes
-            src={`https://img.shields.io/badge/Status: - Checking Link-purple`}
-            alt={status}
-            layout="fill"
-            objectFit="contain"
-          />
-        </div>
+        <img
+          className={styles.badge}
+          // eslint-disable-next-line quotes
+          src={`https://img.shields.io/badge/Status: - Checking Link-purple`}
+          alt={status}
+        />
       ) : (
         <Badge />
       )}
-    </div>
+    </Card>
   );
 }
