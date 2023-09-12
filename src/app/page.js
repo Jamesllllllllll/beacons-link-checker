@@ -52,7 +52,7 @@ export default function Home() {
       <Sheet
         variant="outlined"
         color="neutral"
-        className="flex flex-col items-center justify-start p-2 gap-8 bg-gradient-to-b from-purple-50 to-indigo-50 w-11/12 md:p-16 lg:w-3/4"
+        className="flex flex-col items-center justify-start px-2 py-16 gap-8 bg-gradient-to-b from-purple-50 to-indigo-50 w-11/12 sm:p-16 lg:w-3/4"
         sx={{ p: 4 }}
       >
         <form onSubmit={checkBeacons}>
