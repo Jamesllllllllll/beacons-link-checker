@@ -65,7 +65,7 @@ export default function SingleLink({ url }) {
   trimmedURL = trimmedURL + '...';
 
   return (
-    <Card className="flex flex-row justify-between no-wrap my-8" key={url} sx={{ flexWrap: 'nowrap' }}>
+    <Card className="flex flex-row justify-between no-wrap my-8" key={url} sx={{ flexWrap: 'nowrap', flex: 'row' }}>
       <Link href={url} key={trimmedURL} className="break-all">
         {trimmedURL}
       </Link>
