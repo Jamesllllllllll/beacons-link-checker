@@ -1,5 +1,5 @@
 import NextAuth, { NextAuthOptions } from 'next-auth';
-import EmailProvider from 'next-auth/providers/email';
+// import EmailProvider from 'next-auth/providers/email';
 import GoogleProvider from 'next-auth/providers/google';
 // import SequelizeAdapter from '@auth/sequelize-adapter';
 // import { Sequelize } from 'sequelize';
@@ -34,7 +34,6 @@ export const authOptions = {
     session({user, session}) {
       if (session.user) {
         // session.user.id = user.id;
-        console.log('LOGGING IN THE CONSOLE!!!!!!')
         console.log(session)
       }
 
