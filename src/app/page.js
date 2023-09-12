@@ -52,7 +52,7 @@ export default function Home() {
       <Sheet
         variant="outlined"
         color="neutral"
-        className="flex flex-col items-center justify-start p-16 gap-8 w-11/12 lg:w-3/4"
+        className="flex flex-col items-center justify-start px-2 py-16 gap-8 bg-gradient-to-b from-purple-50 to-indigo-50 w-11/12 sm:p-16 lg:w-3/4"
         sx={{ p: 4 }}
       >
         <form onSubmit={checkBeacons}>
@@ -77,27 +77,22 @@ export default function Home() {
             onChange={handleChange}
             onSubmit={checkBeacons}
             endDecorator={
-              <div className={styles.searchButtonContainer}>
-                <div className={styles.searchButtonInner}>
-                  <div className={styles.searchButtonGradient}> </div>
-                  <Button
-                    onClick={checkBeacons}
-                    variant="solid"
-                    sx={{
-                      backgroundColor: '#185EA5 !important',
-                      position: 'relative',
-                    }}
-                    className={styles.searchButton}
-                  >
-                    Go
-                  </Button>
-                </div>
-              </div>
+              <Button
+                onClick={checkBeacons}
+                variant="solid"
+                sx={{
+                  backgroundColor: '#185EA5 !important',
+                  position: 'relative',
+                }}
+                className={styles.searchButton}
+              >
+                Go
+              </Button>
             }
             // To-Do: Figure out why the background color is white without !important
           />
         </form>
-        <div className="flex flex-col w-11/12">
+        <div className="flex flex-col gap-y-4 w-11/12">
           {/* Show loading state */}
           {isLoading && (
             <div className="self-center">

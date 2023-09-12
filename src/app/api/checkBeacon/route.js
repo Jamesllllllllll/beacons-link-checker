@@ -87,14 +87,17 @@ export async function GET(req, res) {
   const links = await fetchLinks(page);
 
   console.log('Closing browser...');
+
   const pages = await browser.pages();
+
   for (let i = 0; i < pages.length; i++) {
-    console.log(`Closing page: ${JSON.stringify(pages[i])}`)
+    console.log(`Closing page: ${JSON.stringify(pages[i])}`);
     await pages[i].close();
   }
+
   console.log('All pages closed.');
-  console.log(`Making sure.... pages: ${console.log(browser.pages())}`)
-  await browser.close();
+  browser.close();
   console.log('Browser closed.');
+  
   return new NextResponse(JSON.stringify({ data: links }), { status: 200 });
 }
