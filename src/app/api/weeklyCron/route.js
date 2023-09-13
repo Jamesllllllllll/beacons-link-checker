@@ -51,7 +51,7 @@ export async function GET(req, res) {
     console.log(url);
     try {
 
-      // weeklyCron will be evoked for each user checked in this loop
+      // checkWeekly will be evoked for each user checked in this loop
       // An email will be sent if they have any broken links
       
       fetch(url, { method: 'GET' });
