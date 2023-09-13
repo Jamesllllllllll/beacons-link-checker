@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
 // https://vercel.com/docs/cron-jobs#create-or-update-your-vercel.json-file.
-// Called by CRON job every monday at 6am UTC (in vercel.json: "schedule": "0 5 * * 1")
+// Called by CRON job in vercel.json: eg. "schedule": "0 5 * * 1" // every Sunday at 5am UTC 
 
 /***
  * This CRON JOB will:
@@ -40,7 +40,7 @@ export async function GET(req, res) {
   // }
   const baseUrl =
     process.env.NODE_ENV === 'production'
-      ? `https://${process.env.VERCEL_URL}.vercel.app`
+      ? `https://beacons-link-checker-rouge.vercel.app`
       : `http://localhost:3000`;
   // 2. Loop through each user and call the checkWeekly API route
   for (let i = 0; i < mockDailyUsers.length; i++) {
