@@ -1,40 +1,7 @@
 import { NextResponse } from 'next/server';
 import sgMail from '@sendgrid/mail';
-import { startBrowser, goToSite, fetchLinks } from '../checkBeacon/route';
-// #region Puppeteer
-require('puppeteer-extra-plugin-user-data-dir');
-require('puppeteer-extra-plugin-user-preferences');
-const puppeteer = require('puppeteer-extra');
-// const chromium = require("@sparticuz/chromium-min");
-require('puppeteer-extra-plugin-stealth/evasions/chrome.app');
-require('puppeteer-extra-plugin-stealth/evasions/chrome.csi');
-require('puppeteer-extra-plugin-stealth/evasions/chrome.loadTimes');
-require('puppeteer-extra-plugin-stealth/evasions/chrome.runtime');
-require('puppeteer-extra-plugin-stealth/evasions/defaultArgs'); // pkg warned me this one was missing
-require('puppeteer-extra-plugin-stealth/evasions/iframe.contentWindow');
-require('puppeteer-extra-plugin-stealth/evasions/media.codecs');
-require('puppeteer-extra-plugin-stealth/evasions/navigator.hardwareConcurrency');
-require('puppeteer-extra-plugin-stealth/evasions/navigator.languages');
-require('puppeteer-extra-plugin-stealth/evasions/navigator.permissions');
-require('puppeteer-extra-plugin-stealth/evasions/navigator.plugins');
-require('puppeteer-extra-plugin-stealth/evasions/navigator.vendor');
-require('puppeteer-extra-plugin-stealth/evasions/navigator.webdriver');
-require('puppeteer-extra-plugin-stealth/evasions/sourceurl');
-require('puppeteer-extra-plugin-stealth/evasions/user-agent-override');
-require('puppeteer-extra-plugin-stealth/evasions/webgl.vendor');
-require('puppeteer-extra-plugin-stealth/evasions/window.outerdimensions');
-const StealthPlugin = require('puppeteer-extra-plugin-stealth');
-// #endregion
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-
-const mockDailyUsers = [
-  {
-    id: 1,
-    username: 'james',
-    email: `proton.aging959@passmail.net`,
-  },
-];
 
 export async function GET(req, res) {
   console.log('checkWeekly starting...');
@@ -44,26 +11,7 @@ export async function GET(req, res) {
       : `http://localhost:3000`;
   const username = req.nextUrl.searchParams.get('user');
   const email = req.nextUrl.searchParams.get('email');
-
-  const browser = await startBrowser();
-
-  const page = await goToSite(browser, url);
-  // 3. The checkBeacon API route will return an array of links.
-  const links = await fetchLinks(page);
-
-  console.log('Closing browser...');
-
-  const pages = await browser.pages();
-
-  for (let i = 0; i < pages.length; i++) {
-    console.log(`Closing page: ${JSON.stringify(pages[i])}`);
-    await pages[i].close();
-  }
-
-  console.log('All pages closed.');
-  browser.close();
-  console.log('Browser closed.');
-
+  let links;
   const linkStatuses = [];
   const linkWarning = [];
   const linkError = [];
