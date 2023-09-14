@@ -52,7 +52,7 @@ export async function GET(req, res) {
     } else {
       console.log(response.statusText);
     }
-    if (linkWarning.length) {
+    if (linkWarning.length || linkError.length) {
       // 6. If there are any links with a status other than 200, it will send an email to the user.
 
       const msg = {
@@ -77,7 +77,7 @@ export async function GET(req, res) {
               : ''
           }`,
       };
-
+      console.log('Sending email...');
       sgMail
         .send(msg)
         .then(() => {
@@ -86,7 +86,11 @@ export async function GET(req, res) {
         .catch((error) => {
           console.error(error);
         });
-      return NextResponse.json({ data: linkWarning }, { status: 200 });
+      console.log('Email sent.');
+      return NextResponse.json(
+        { data: { warnings: linkWarning, errors: linkError } },
+        { status: 200 }
+      );
     }
   } catch (error) {
     console.log(`There was an error: ${error}`);
