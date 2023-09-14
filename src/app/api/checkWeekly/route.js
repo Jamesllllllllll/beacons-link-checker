@@ -100,10 +100,10 @@ export async function GET(req, res) {
       //     console.error(error);
       //   });
       // console.log('Email sent.');
-      // return NextResponse.json(
-      //   { data: { warnings: linkWarning, errors: linkError } },
-      //   { status: 200 }
-      // );
+      return NextResponse.json(
+        { data: { warnings: linkWarning, errors: linkError } },
+        { status: 200 }
+      );
     }
   } catch (error) {
     console.log(`There was an error: ${error}`);
