@@ -58,6 +58,11 @@ export async function goToSite(browser, url) {
 }
 
 export async function fetchLinks(page) {
+  // const noAccount = await page.$x("//div[contains(text()='No Beacons account associated with')]");
+  // if (noAccount) {
+  //   console.log('No account with this username.')
+  //   console.log(noAccount)
+  // }
   const links = await page.$$eval('.RowLink', (links) => {
     links = links
       .map((el) => el.querySelector('a').href)

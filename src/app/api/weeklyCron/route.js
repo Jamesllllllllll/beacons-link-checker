@@ -56,16 +56,6 @@ export async function GET(req, res) {
       
       fetch(url, { method: 'GET' });
       console.log(`fetching ${url}`)
-      
-      // The await below is not necessary and would timeout when the user list gets long
-      //
-      // const response = await fetch(url, { method: 'GET' });
-      // if (response.ok) {
-      //   console.log(`Response OK! - response.ok = ${response.ok}`);
-      // } else {
-      //   console.log(`There was an error: ${response.statusText}`);
-      // }
-
     } catch (err) {
       console.log(`There was an error: ${err}`);
     }
