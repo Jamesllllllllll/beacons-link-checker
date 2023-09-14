@@ -4,11 +4,5 @@
       "path": "/api/weeklyCron",
       "schedule": "*/5 * * * *"
     }
-  ],
-  "functions": {
-    "api/weeklyCron/route.js": {
-      "memory": 1024,
-      "maxDuration": 60
-    }
-  }
+  ]
 }
