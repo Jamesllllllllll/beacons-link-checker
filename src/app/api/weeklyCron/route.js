@@ -51,16 +51,16 @@ export async function GET(req, res) {
     console.log(`CRON job checking: ${username}`);
     console.log(url);
     // try {
-      // weeklyCron will be evoked for each user checked in this loop
-      // An email will be sent if they have any broken links
-      const check = await fetch(url, { method: 'GET' });
-      console.log(check)
-      checkedUsers.push(username);
+    // weeklyCron will be evoked for each user checked in this loop
+    // An email will be sent if they have any broken links
+    const check = await fetch(url, { method: 'GET' });
+    console.log(check);
+    checkedUsers.push(username);
     //   console.log(`fetching ${url}`)
     // } catch (err) {
     //   console.log(`There was an error: ${err}`);
     // }
   }
-  console.log('ALL JOBS DONE!')
+  console.log('ALL JOBS DONE!');
   return NextResponse.json({ data: checkedUsers }, { status: 200 });
 }
