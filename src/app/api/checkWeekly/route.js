@@ -6,7 +6,7 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 export async function GET(req, res) {
   const baseUrl =
     process.env.NODE_ENV === 'production'
-      ? `https://beacons-link-checker-rouge.vercel.app`
+      ? `https://beacons-link-checker.vercel.app`
       : `http://localhost:3000`;
   const username = req.nextUrl.searchParams.get('user');
   const email = req.nextUrl.searchParams.get('email');
