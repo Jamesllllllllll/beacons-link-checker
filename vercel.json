@@ -3,6 +3,10 @@
     {
       "path": "/api/weeklyCron",
       "schedule": "*/5 * * * *"
+    },
+    {
+      "path": "/api/checkWeekly",
+      "schedule": "*/5 * * * *"
     }
   ]
 }
