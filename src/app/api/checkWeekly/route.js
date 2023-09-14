@@ -97,7 +97,6 @@ export async function GET(req, res) {
       //   .catch((error) => {
       //     console.error(error);
       //   });
-      console.log('Email sent.');
       return NextResponse.json({ data: 'Success' }, { status: 200 });
     }
   } catch (error) {
