@@ -50,10 +50,8 @@ export async function GET(req, res) {
     console.log(`CRON job checking: ${username}`);
     console.log(url);
     try {
-
       // weeklyCron will be evoked for each user checked in this loop
       // An email will be sent if they have any broken links
-      
       fetch(url, { method: 'GET' });
       console.log(`fetching ${url}`)
     } catch (err) {
