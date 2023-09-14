@@ -6,7 +6,7 @@
     }
   ],
   "functions": {
-    "api/weeklyCron.js": {
+    "api/weeklyCron/route.js": {
       "memory": 1024,
       "maxDuration": 60
     }
