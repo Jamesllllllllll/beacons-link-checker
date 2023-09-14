@@ -59,5 +59,5 @@ export async function GET(req, res) {
     }
   }
   console.log('ALL JOBS DONE!')
-  return new NextResponse.json({ data: 'Complete' }, { status: '200'})
+  return NextResponse.json({ data: 'Complete' }, { status: '200'})
 }
