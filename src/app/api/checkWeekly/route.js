@@ -4,6 +4,7 @@ import sgMail from '@sendgrid/mail';
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 export async function GET(req, res) {
+  console.log('checkWeekly starting...')  
   const baseUrl =
     process.env.NODE_ENV === 'production'
       ? `https://beacons-link-checker.vercel.app`
