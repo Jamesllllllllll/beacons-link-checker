@@ -32,6 +32,9 @@ const mockDailyUsers = [
   // },
 ];
 
+// Force this route to be a serverless function (not static)
+export const dynamic = 'force-dynamic'
+
 export async function GET(req, res) {
   // 1. Pull an array of daily users from the database
   // const dailyUsers = await db.dailyUsers.something?
