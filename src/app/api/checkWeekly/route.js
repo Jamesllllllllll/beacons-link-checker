@@ -79,18 +79,19 @@ export async function GET(req, res) {
           }`,
       };
       console.log('Sending email...');
-      (async () => {
-        try {
-          await sgMail.send(msg);
-          console.log(`Email sent to ${email}`);
-        } catch (error) {
-          console.error(error);
+      sgMail.send(msg);
+      // (async () => {
+      //   try {
+      //     await sgMail.send(msg);
+      //     console.log(`Email sent to ${email}`);
+      //   } catch (error) {
+      //     console.error(error);
 
-          if (error.response) {
-            console.error(error.response.body);
-          }
-        }
-      })();
+      //     if (error.response) {
+      //       console.error(error.response.body);
+      //     }
+      //   }
+      // })();
       // sgMail
       //   .send(msg)
       //   .then(() => {
@@ -99,7 +100,7 @@ export async function GET(req, res) {
       //   .catch((error) => {
       //     console.error(error);
       //   });
-      // console.log('Email sent.');
+      console.log('Email sent.');
       return NextResponse.json(
         { data: { warnings: linkWarning, errors: linkError } },
         { status: 200 }
