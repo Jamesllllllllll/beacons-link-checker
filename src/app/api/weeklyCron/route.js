@@ -57,7 +57,6 @@ export async function GET(req, res) {
     // weeklyCron will be evoked for each user checked in this loop
     // An email will be sent if they have any broken links
     const check = await fetch(url, { method: 'GET' });
-    console.log(check);
     checkedUsers.push(username);
     //   console.log(`fetching ${url}`)
     // } catch (err) {

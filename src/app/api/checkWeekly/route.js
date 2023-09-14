@@ -4,7 +4,7 @@ import sgMail from '@sendgrid/mail';
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 export async function GET(req, res) {
-  console.log('checkWeekly starting...')  
+  console.log('checkWeekly starting...');
   const baseUrl =
     process.env.NODE_ENV === 'production'
       ? `https://beacons-link-checker.vercel.app`
@@ -79,19 +79,31 @@ export async function GET(req, res) {
           }`,
       };
       console.log('Sending email...');
-      sgMail
-        .send(msg)
-        .then(() => {
+      (async () => {
+        try {
+          await sgMail.send(msg);
           console.log(`Email sent to ${email}`);
-        })
-        .catch((error) => {
+        } catch (error) {
           console.error(error);
-        });
-      console.log('Email sent.');
-      return NextResponse.json(
-        { data: { warnings: linkWarning, errors: linkError } },
-        { status: 200 }
-      );
+
+          if (error.response) {
+            console.error(error.response.body);
+          }
+        }
+      })();
+      // sgMail
+      //   .send(msg)
+      //   .then(() => {
+      //     console.log(`Email sent to ${email}`);
+      //   })
+      //   .catch((error) => {
+      //     console.error(error);
+      //   });
+      // console.log('Email sent.');
+      // return NextResponse.json(
+      //   { data: { warnings: linkWarning, errors: linkError } },
+      //   { status: 200 }
+      // );
     }
   } catch (error) {
     console.log(`There was an error: ${error}`);
