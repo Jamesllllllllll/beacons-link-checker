@@ -67,7 +67,15 @@ export async function fetchLinks(page) {
     links = links
       .map((el) => el.querySelector('a').href)
       .filter((link) => !link.startsWith('https://beacons'));
-    return links;
+    const linkObjects = links.map(function (link) {
+      return { url: link, delay: null };
+    });
+    let delay = 0;
+    for (let i = 0; i < linkObjects.length; i++) {
+      linkObjects[i].delay = delay;
+      delay += 200;
+    }
+    return linkObjects;
   });
   console.log(links);
   return links;
@@ -91,6 +99,8 @@ export async function GET(req, res) {
 
   const links = await fetchLinks(page);
 
+  console.log(`Links with delay:\n${JSON.stringify(links)}`);
+
   console.log('Closing browser...');
 
   const pages = await browser.pages();
@@ -103,6 +113,6 @@ export async function GET(req, res) {
   console.log('All pages closed.');
   browser.close();
   console.log('Browser closed.');
-  
+
   return new NextResponse(JSON.stringify({ data: links }), { status: 200 });
 }

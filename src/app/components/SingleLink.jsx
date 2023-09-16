@@ -1,13 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
 import Card from '@mui/material/Card';
-import styles from './SingleLink.module.css';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { Transition } from 'react-transition-group';
 
-export default function SingleLink({ url }) {
+export default function SingleLink({ url, delay, in: inProp }) {
   const [status, setStatus] = useState('Checking Link-purple');
+  const nodeRef = useRef(null);
   const Badge = () => {
     let message;
     switch (status) {
@@ -38,7 +38,7 @@ export default function SingleLink({ url }) {
     return (
       <img
         src={`https://img.shields.io/badge/${status}-${message}`}
-        className={styles.badge}
+        className="h-[20px] justify-self-end"
         alt={status}
       />
     );
@@ -59,26 +59,56 @@ export default function SingleLink({ url }) {
     checkLink(url);
   }, [url]);
 
-  const trimURLstart = url.replace(/(^\w+:|^)\/\//, '');
+  const trimURLstart = url.replace(/http(s)?(:)?(\/\/)?|(\/\/)?(www\.)?/g, '');
   let trimURLend = trimURLstart.search(/\/\d{3,}/g);
-  let trimmedURL = trimURLstart.slice(0, trimURLend)
-  trimmedURL = trimmedURL + '...';
+  const trimmedURL =
+    trimURLend !== -1
+      ? trimURLstart.slice(0, trimURLend).concat('...')
+      : trimURLstart;
+
+  const defaultStyle = {
+    transition: `opacity 500ms ease-in-out`,
+    opacity: 0,
+    transitionDelay: `${delay}ms`,
+  };
+
+  const transitionStyles = {
+    entering: { opacity: 1 },
+    entered: { opacity: 1 },
+    exiting: { opacity: 0 },
+    exited: { opacity: 0 },
+  };
 
   return (
-    <Card className="flex flex-row justify-between mb-10 p-8" key={url}>
-      <Link href={url} key={trimmedURL} className="break-all">
-        {trimmedURL}
-      </Link>
-      {status === 'Checking Link-purple' ? (
-        <img
-          className={styles.badge}
-          // eslint-disable-next-line quotes
-          src={`https://img.shields.io/badge/Status: - Checking Link-purple`}
-          alt={status}
-        />
-      ) : (
-        <Badge />
+    <Transition
+      nodeRef={nodeRef}
+      key={url}
+      timeout={delay}
+      in={inProp}
+      unmountOnExit={true}
+    >
+      {(state) => (
+        <Card
+          ref={nodeRef}
+          style={{ ...defaultStyle, ...transitionStyles[state] }}
+          className="flex flex-row justify-between mb-10 p-8"
+          key={url}
+        >
+          <Link href={url} key={trimmedURL} className="break-all">
+            {trimmedURL}
+          </Link>
+          {status === 'Checking Link-purple' ? (
+            <img
+              className="h-[20px] justify-self-end"
+              // eslint-disable-next-line quotes
+              src={`https://img.shields.io/badge/Status: - Checking Link-purple`}
+              alt={status}
+            />
+          ) : (
+            <Badge className="h-[20px] justify-self-end" />
+          )}
+        </Card>
       )}
-    </Card>
+    </Transition>
   );
 }

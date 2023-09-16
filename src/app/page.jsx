@@ -1,10 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import FormLabel from '@mui/material/FormLabel';
-import Input from '@mui/material/Input';
 import InputBase from '@mui/material/InputBase';
-import InputAdornment from '@mui/material/InputAdornment';
-import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
@@ -12,8 +9,7 @@ import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import SingleLink from './components/SingleLink';
 import { LinearProgress } from '@mui/material';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import styles from './Page.module.css';
+import { TransitionGroup } from 'react-transition-group';
 
 export default function Home() {
   const [username, setUsername] = useState('');
@@ -73,8 +69,13 @@ export default function Home() {
           onSubmit={checkBeacons}
         >
           <FormLabel className="sr-only">Enter your Beacons username</FormLabel>
-          <Stack direction="row" alignItems="center"  width="100%" className="p-2">
-            <Typography className="font-bold mx-0">beacons.ai/</Typography>
+          <Stack
+            direction="row"
+            alignItems="center"
+            width="100%"
+            className="p-2"
+          >
+            <Typography className="font-bold ml-2">beacons.ai/</Typography>
             <InputBase
               className="pl-[2px] mt-[1px]"
               placeholder="username"
@@ -107,7 +108,7 @@ export default function Home() {
           {/* Show loading state */}
           {isLoading && (
             // <div className="self-center">
-            <Box sx={{ maxWidth: 300, alignSelf: 'center' }}>
+            <Box sx={{ width: '100%', alignSelf: 'center' }}>
               <LinearProgress />
             </Box>
             // </div>
@@ -122,9 +123,12 @@ export default function Home() {
           {links[0] !== 'No links found' ? (
             <TransitionGroup>
               {links.map((link) => (
-                <CSSTransition key={link} timeout={500} classNames="item">
-                  <SingleLink key={link} url={link} />
-                </CSSTransition>
+                <SingleLink
+                  key={link.url}
+                  url={link.url}
+                  delay={link.delay}
+                  style={{ transitionDelay: `${link.delay}ms` }}
+                />
               ))}
             </TransitionGroup>
           ) : (
