@@ -2,7 +2,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import Card from '@mui/joy/Card';
+import Card from '@mui/material/Card';
 import styles from './SingleLink.module.css';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
@@ -65,7 +65,7 @@ export default function SingleLink({ url }) {
   trimmedURL = trimmedURL + '...';
 
   return (
-    <Card orientation="horizontal" className=" justify-between my-8" key={url}>
+    <Card className="flex flex-row justify-between mb-10 p-8" key={url}>
       <Link href={url} key={trimmedURL} className="break-all">
         {trimmedURL}
       </Link>

@@ -1,12 +1,17 @@
 'use client';
-import React from 'react';
-import { useState } from 'react';
-import FormLabel from '@mui/joy/FormLabel';
-import Input from '@mui/joy/Input';
-import Button from '@mui/joy/Button';
-import Sheet from '@mui/joy/Sheet';
+import React, { useState } from 'react';
+import FormLabel from '@mui/material/FormLabel';
+import Input from '@mui/material/Input';
+import InputBase from '@mui/material/InputBase';
+import InputAdornment from '@mui/material/InputAdornment';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Paper from '@mui/material/Paper';
+import Stack from '@mui/material/Stack';
+import Box from '@mui/material/Box';
 import SingleLink from './components/SingleLink';
-import LinearProgress from '@mui/joy/LinearProgress';
+import { LinearProgress } from '@mui/material';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import styles from './Page.module.css';
 
@@ -49,60 +54,61 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen justify-center min-height-screen py-24 gap-12">
-      <Sheet
+      <Paper
         variant="outlined"
         color="neutral"
         className="flex flex-col items-center justify-start rounded-3xl shadow-lg px-2 py-16 gap-8 bg-gradient-to-b from-gray-50 to-slate-50 w-11/12 sm:p-16 lg:w-3/4"
         sx={{ p: 4 }}
       >
-        <form onSubmit={checkBeacons}>
+        <Typography>Check your Beacons page for broken links</Typography>
+        <Paper
+          component="form"
+          sx={{
+            p: '2px 4px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+          onSubmit={checkBeacons}
+        >
           <FormLabel className="sr-only">Enter your Beacons username</FormLabel>
-          <Input
-            label="Your Beacons Username"
-            placeholder="Your Beacons Username"
-            variant="outlined"
-            color="primary"
-            sx={{
-              '--Input-focusedInset': 'var(--any, )',
-              '--Input-focusedThickness': '0.25rem',
-              '--Input-focusedHighlight': 'rgba(13,110,253,.25)',
-              '&::before': {
-                transition: 'box-shadow .15s ease-in-out',
-              },
-              '&:focus-within': {
-                borderColor: '#86b7fe',
-              },
-            }}
-            value={username}
-            onChange={handleChange}
-            onSubmit={checkBeacons}
-            endDecorator={
-              <Button
-                onClick={checkBeacons}
-                variant="solid"
-                sx={{
-                  backgroundColor: '#185EA5 !important',
-                  position: 'relative',
-                }}
-                className={styles.searchButton}
-              >
-                Go
-              </Button>
-            }
-            // To-Do: Figure out why the background color is white without !important
-          />
-        </form>
+          <Stack direction="row" alignItems="center"  width="100%" className="p-2">
+            <Typography className="font-bold mx-0">beacons.ai/</Typography>
+            <InputBase
+              className="pl-1"
+              placeholder="username"
+              required
+              size="medium"
+              // InputProps={{
+              //   startAdornment: (
+              //     <InputAdornment position="start" className="font-bold mx-px">
+
+              //     </InputAdornment>
+              //   ),
+              // }}
+              value={username}
+              onChange={handleChange}
+              onSubmit={checkBeacons}
+            />
+            <Button
+              onClick={checkBeacons}
+              variant="contained"
+              size="medium"
+              className="self-center"
+              sx={{ backgroundColor: '#1565c0 !important' }}
+              // !important because it seems Inter resets button background color to transparent in layout.jsx, but dispabling doesn't fix it?
+            >
+              Go
+            </Button>
+          </Stack>
+        </Paper>
         <div className="flex flex-col gap-y-4 w-11/12">
           {/* Show loading state */}
           {isLoading && (
             // <div className="self-center">
-              <LinearProgress
-                color="primary"
-                determinate={false}
-                size="md"
-                variant="plain"
-                width="500px"
-              />
+            <Box sx={{ maxWidth: 300, alignSelf: 'center' }}>
+              <LinearProgress />
+            </Box>
             // </div>
           )}
 
@@ -131,7 +137,7 @@ export default function Home() {
             </Button>
           )}
         </div>
-      </Sheet>
+      </Paper>
     </main>
   );
 }
