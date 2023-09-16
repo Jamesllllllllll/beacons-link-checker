@@ -18,18 +18,8 @@ const mockDailyUsers = [
   {
     id: 1,
     username: 'james',
-    email: `proton.aging959@passmail.net`,
+    email: `proton.aging959@passmail.net`, // email alias
   },
-  // {
-  //   id: 2,
-  //   username: 'duckytheyorkie',
-  //   email: 'proton.aging959@passmail.net',
-  // },
-  // {
-  //   id: 3,
-  //   username: 'jimmy',
-  //   email: 'proton.aging959@passmail.net',
-  // },
 ];
 
 // Force this route to be a serverless function (not static)
