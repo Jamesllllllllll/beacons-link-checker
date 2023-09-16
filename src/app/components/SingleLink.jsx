@@ -83,7 +83,7 @@ export default function SingleLink({ url, delay, in: inProp }) {
     <Transition
       nodeRef={nodeRef}
       key={url}
-      timeout={delay}
+      timeout={{ enter: delay }}
       in={inProp}
       unmountOnExit={true}
     >
