@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import FormLabel from '@mui/material/FormLabel';
 import InputBase from '@mui/material/InputBase';
 import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
@@ -48,9 +49,10 @@ export default function Home() {
     fetch('/api/weeklyCron');
   };
 
+  const [open, setOpen] = useState(true);
+
   return (
     <>
-      <Typography>Check your Beacons page for broken links</Typography>
       <Paper
         component="form"
         sx={{
@@ -63,41 +65,55 @@ export default function Home() {
         onSubmit={checkBeacons}
       >
         <FormLabel className="sr-only">Enter your Beacons username</FormLabel>
-        <Stack direction="row" alignItems="center" width="100%" className="p-2">
-          <Typography className="font-bold ml-2">beacons.ai/</Typography>
-          <InputBase
-            className="pl-[2px] mt-[1px]"
-            placeholder="username"
-            required
-            size="medium"
-            // InputProps={{
-            //   startAdornment: (
-            //     <InputAdornment position="start" className="font-bold mx-px">
-
-            //     </InputAdornment>
-            //   ),
-            // }}
-            value={username}
-            onChange={handleChange}
-            onSubmit={checkBeacons}
-          />
-          <Button
-            onClick={checkBeacons}
-            variant="contained"
-            size="medium"
-            className="self-center"
-            sx={{ backgroundColor: 'purple !important' }}
-            // !important because it seems Inter resets button background color to transparent in layout.jsx, but dispabling doesn't fix it?
+        <Tooltip
+          title="Check your Beacons page for broken links"
+          arrow
+          enterDelay={500}
+          leaveDelay={200}
+          open={open}
+          onMouseEnter={() => setOpen(false)}
+        >
+          <Stack
+            direction="row"
+            alignItems="center"
+            width="100%"
+            className="p-2"
           >
-            Go
-          </Button>
-        </Stack>
+            <Typography className="font-bold ml-2">beacons.ai/</Typography>
+            <InputBase
+              className="pl-[2px] mt-[1px]"
+              placeholder="username"
+              required
+              size="medium"
+              // InputProps={{
+              //   startAdornment: (
+              //     <InputAdornment position="start" className="font-bold mx-px">
+
+              //     </InputAdornment>
+              //   ),
+              // }}
+              value={username}
+              onChange={handleChange}
+              onSubmit={checkBeacons}
+            />
+            <Button
+              onClick={checkBeacons}
+              variant="contained"
+              size="medium"
+              className="self-center"
+              sx={{ backgroundColor: 'purple !important' }}
+              // !important because it seems Inter resets button background color to transparent in layout.jsx, but dispabling doesn't fix it?
+            >
+              Go
+            </Button>
+          </Stack>
+        </Tooltip>
       </Paper>
       <div className="flex flex-col gap-y-4 w-11/12">
         {/* Show loading state */}
         {isLoading && (
           // <div className="self-center">
-          <Box sx={{ width: '100%', alignSelf: 'center' }}>
+          <Box sx={{ width: 300, alignSelf: 'center' }}>
             <LinearProgress />
           </Box>
           // </div>
@@ -126,7 +142,11 @@ export default function Home() {
 
         {error && <div>There was an error: {error}</div>}
         {process.env.NODE_ENV === 'development' && (
-          <Button onClick={runCRON} variant="outlined">
+          <Button
+            onClick={runCRON}
+            variant="outlined"
+            sx={{ width: 300, alignSelf: 'center' }}
+          >
             Run CRON Job
           </Button>
         )}
