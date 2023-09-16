@@ -8,6 +8,7 @@ import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import SingleLink from './components/SingleLink';
+import Privacy from './privacy/page';
 import { LinearProgress } from '@mui/material';
 import { TransitionGroup } from 'react-transition-group';
 
@@ -49,100 +50,88 @@ export default function Home() {
   };
 
   return (
-    <main className="flex min-h-screen justify-center py-4 sm:py-24 gap-12">
+    <>
+      <Typography>Check your Beacons page for broken links</Typography>
       <Paper
-        variant="outlined"
-        color="neutral"
-        className="flex flex-col items-center justify-start rounded-3xl shadow-lg px-2 py-16 gap-8 bg-gradient-to-b from-gray-50 to-slate-50 w-11/12 sm:p-16 lg:w-3/4"
-        sx={{ p: 4 }}
+        component="form"
+        sx={{
+          // p: '2px 4px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+        className="mx-4 sm:mx-0"
+        onSubmit={checkBeacons}
       >
-        <Typography>Check your Beacons page for broken links</Typography>
-        <Paper
-          component="form"
-          sx={{
-            // p: '2px 4px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-          className="mx-4 sm:mx-0"
-          onSubmit={checkBeacons}
-        >
-          <FormLabel className="sr-only">Enter your Beacons username</FormLabel>
-          <Stack
-            direction="row"
-            alignItems="center"
-            width="100%"
-            className="p-2"
+        <FormLabel className="sr-only">Enter your Beacons username</FormLabel>
+        <Stack direction="row" alignItems="center" width="100%" className="p-2">
+          <Typography className="font-bold ml-2">beacons.ai/</Typography>
+          <InputBase
+            className="pl-[2px] mt-[1px]"
+            placeholder="username"
+            required
+            size="medium"
+            // InputProps={{
+            //   startAdornment: (
+            //     <InputAdornment position="start" className="font-bold mx-px">
+
+            //     </InputAdornment>
+            //   ),
+            // }}
+            value={username}
+            onChange={handleChange}
+            onSubmit={checkBeacons}
+          />
+          <Button
+            onClick={checkBeacons}
+            variant="contained"
+            size="medium"
+            className="self-center"
+            sx={{ backgroundColor: '#1565c0 !important' }}
+            // !important because it seems Inter resets button background color to transparent in layout.jsx, but dispabling doesn't fix it?
           >
-            <Typography className="font-bold ml-2">beacons.ai/</Typography>
-            <InputBase
-              className="pl-[2px] mt-[1px]"
-              placeholder="username"
-              required
-              size="medium"
-              // InputProps={{
-              //   startAdornment: (
-              //     <InputAdornment position="start" className="font-bold mx-px">
-
-              //     </InputAdornment>
-              //   ),
-              // }}
-              value={username}
-              onChange={handleChange}
-              onSubmit={checkBeacons}
-            />
-            <Button
-              onClick={checkBeacons}
-              variant="contained"
-              size="medium"
-              className="self-center"
-              sx={{ backgroundColor: '#1565c0 !important' }}
-              // !important because it seems Inter resets button background color to transparent in layout.jsx, but dispabling doesn't fix it?
-            >
-              Go
-            </Button>
-          </Stack>
-        </Paper>
-        <div className="flex flex-col gap-y-4 w-11/12">
-          {/* Show loading state */}
-          {isLoading && (
-            // <div className="self-center">
-            <Box sx={{ width: '100%', alignSelf: 'center' }}>
-              <LinearProgress />
-            </Box>
-            // </div>
-          )}
-
-          {/* Show title if links exist */}
-          {links.length > 0 && links[0] !== 'No links found' && (
-            <h2 className="text-xl font-semibold">Your Beacons Links:</h2>
-          )}
-
-          {/* Show links, otherwise show none found */}
-          {links[0] !== 'No links found' ? (
-            <TransitionGroup>
-              {links.map((link) => (
-                <SingleLink
-                  key={link.url}
-                  url={link.url}
-                  delay={link.delay}
-                  style={{ transitionDelay: `${link.delay}ms` }}
-                />
-              ))}
-            </TransitionGroup>
-          ) : (
-            <p>No links found</p>
-          )}
-
-          {error && <div>There was an error: {error}</div>}
-          {process.env.NODE_ENV === 'development' && (
-            <Button onClick={runCRON} variant="outlined">
-              Run CRON Job
-            </Button>
-          )}
-        </div>
+            Go
+          </Button>
+        </Stack>
       </Paper>
-    </main>
+      <div className="flex flex-col gap-y-4 w-11/12">
+        {/* Show loading state */}
+        {isLoading && (
+          // <div className="self-center">
+          <Box sx={{ width: '100%', alignSelf: 'center' }}>
+            <LinearProgress />
+          </Box>
+          // </div>
+        )}
+
+        {/* Show title if links exist */}
+        {links.length > 0 && links[0] !== 'No links found' && (
+          <h2 className="text-xl font-semibold">Your Beacons Links:</h2>
+        )}
+
+        {/* Show links, otherwise show none found */}
+        {links[0] !== 'No links found' ? (
+          <TransitionGroup>
+            {links.map((link) => (
+              <SingleLink
+                key={link.url}
+                url={link.url}
+                delay={link.delay}
+                style={{ transitionDelay: `${link.delay}ms` }}
+              />
+            ))}
+          </TransitionGroup>
+        ) : (
+          <p>No links found</p>
+        )}
+
+        {error && <div>There was an error: {error}</div>}
+        {process.env.NODE_ENV === 'development' && (
+          <Button onClick={runCRON} variant="outlined">
+            Run CRON Job
+          </Button>
+        )}
+      </div>
+    </>
   );
 }
