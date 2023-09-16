@@ -53,7 +53,7 @@ export default function Home() {
   };
 
   return (
-    <main className="flex min-h-screen justify-center min-height-screen py-24 gap-12">
+    <main className="flex min-h-screen justify-center py-4 sm:py-24 gap-12">
       <Paper
         variant="outlined"
         color="neutral"
@@ -64,18 +64,19 @@ export default function Home() {
         <Paper
           component="form"
           sx={{
-            p: '2px 4px',
+            // p: '2px 4px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
           }}
+          className="mx-4 sm:mx-0"
           onSubmit={checkBeacons}
         >
           <FormLabel className="sr-only">Enter your Beacons username</FormLabel>
           <Stack direction="row" alignItems="center"  width="100%" className="p-2">
             <Typography className="font-bold mx-0">beacons.ai/</Typography>
             <InputBase
-              className="pl-1"
+              className="pl-[2px] mt-[1px]"
               placeholder="username"
               required
               size="medium"
