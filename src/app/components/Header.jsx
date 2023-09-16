@@ -4,6 +4,8 @@ import { getServerSession } from 'next-auth';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import SignIn from './SignIn';
 import SignOut from './SignOut';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
 // import { usePathname } from 'next/navigation';
 
 export default async function Header() {
@@ -12,10 +14,12 @@ export default async function Header() {
   const avatar = session?.user?.image;
   const name = session?.user?.name;
   return (
-    <header className="bg-white p-4">
-      {!session && <SignIn />}
-      {session && <SignOut name={name} avatar={avatar} />}
-    </header>
+    <AppBar position="static" color="transparent" className="pt-2" sx={{ boxShadow: 'none' }}>
+      <Toolbar sx={{ justifyContent: 'end' }}>
+        {!session && <SignIn />}
+        {session && <SignOut name={name} avatar={avatar} />}
+      </Toolbar>
+    </AppBar>
   );
 }
 

@@ -8,7 +8,6 @@ import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import SingleLink from './components/SingleLink';
-import Privacy from './privacy/page';
 import { LinearProgress } from '@mui/material';
 import { TransitionGroup } from 'react-transition-group';
 
@@ -87,7 +86,7 @@ export default function Home() {
             variant="contained"
             size="medium"
             className="self-center"
-            sx={{ backgroundColor: '#1565c0 !important' }}
+            sx={{ backgroundColor: 'purple !important' }}
             // !important because it seems Inter resets button background color to transparent in layout.jsx, but dispabling doesn't fix it?
           >
             Go
