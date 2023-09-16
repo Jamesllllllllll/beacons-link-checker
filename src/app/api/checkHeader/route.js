@@ -13,7 +13,10 @@ export async function GET(req, res) {
       cache: 'no-store',
     });
   } catch (error) {
-    console.log(`Error: ${error}`)
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: error.cause.code })
+    console.log(`Error: ${error}`);
+    return NextResponse.json(
+      { error: 'Internal Server Error' },
+      { status: error.cause.code }
+    );
   }
 }

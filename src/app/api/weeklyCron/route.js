@@ -22,6 +22,9 @@ const mockDailyUsers = [
   },
 ];
 
+// Force this route to be a serverless function (not static)
+export const dynamic = 'force-dynamic'
+
 export async function GET(req, res) {
   // 1. Pull an array of daily users from the database
   // const dailyUsers = await db.dailyUsers.something?
@@ -30,8 +33,9 @@ export async function GET(req, res) {
   // }
   const baseUrl =
     process.env.NODE_ENV === 'production'
-      ? `https://${process.env.VERCEL_URL}.vercel.app`
+      ? `https://beacons-link-checker.vercel.app`
       : `http://localhost:3000`;
+  const checkedUsers = [];
   // 2. Loop through each user and call the checkWeekly API route
   for (let i = 0; i < mockDailyUsers.length; i++) {
     const username = mockDailyUsers[i].username;
@@ -39,27 +43,16 @@ export async function GET(req, res) {
     const url = `${baseUrl}/api/checkWeekly?user=${username}&email=${email}`;
     console.log(`CRON job checking: ${username}`);
     console.log(url);
-    try {
-
-      // checkWeekly will be evoked for each user checked in this loop
-      // An email will be sent if they have any broken links
-      
-      fetch(url, { method: 'GET' });
-      console.log(`fetching ${url}`)
-      
-      // The await below is not necessary and would timeout when the user list gets long
-      //
-      // const response = await fetch(url, { method: 'GET' });
-      // if (response.ok) {
-      //   console.log(`Response OK! - response.ok = ${response.ok}`);
-      // } else {
-      //   console.log(`There was an error: ${response.statusText}`);
-      // }
-
-    } catch (err) {
-      console.log(`There was an error: ${err}`);
-    }
+    // try {
+    // weeklyCron will be evoked for each user checked in this loop
+    // An email will be sent if they have any broken links
+    const check = await fetch(url, { method: 'GET' });
+    checkedUsers.push(username);
+    //   console.log(`fetching ${url}`)
+    // } catch (err) {
+    //   console.log(`There was an error: ${err}`);
+    // }
   }
-  console.log('ALL JOBS DONE!')
-  return new NextResponse({ status: 'done'})
+  console.log('ALL JOBS DONE!');
+  return NextResponse.json({ data: checkedUsers }, { status: 200 });
 }
