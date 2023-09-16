@@ -71,7 +71,7 @@ export default function Home() {
           enterDelay={500}
           leaveDelay={200}
           open={open}
-          onMouseEnter={() => setOpen(false)}
+          onFocus={() => setOpen(false)}
         >
           <Stack
             direction="row"
