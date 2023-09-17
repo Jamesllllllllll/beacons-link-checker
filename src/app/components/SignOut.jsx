@@ -8,11 +8,11 @@ export default function SignOut({ name, avatar }) {
     <>
       <Stack
         direction="row"
-        className="items-end gap-4 p-4 items-center bg-white rounded "
+        className="items-end gap-4 px-3 py-2 items-center bg-white rounded "
       >
         <span
           style={{ backgroundImage: `url('${avatar}')` }}
-          className="rounded-full h-11 w-11 bg-cover bg-no-repeat inline-block"
+          className="rounded-full h-11 w-11 bg-cover bg-no-repeat inline-block shadow-inner"
         />
         <Button
           component="a"
@@ -21,6 +21,7 @@ export default function SignOut({ name, avatar }) {
             e.preventDefault();
             signOut();
           }}
+          className="hover:outline hover:outline-1 outline-violet-200"
         >
           Sign out
         </Button>

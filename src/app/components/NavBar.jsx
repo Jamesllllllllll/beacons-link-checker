@@ -20,7 +20,7 @@ export default function NavBar() {
           return (
             <li key={page.name}>
               <Link href={page.path}>
-                <Button className={`m-2 hover:outline hover:outline-1 ${isActive && 'bg-purple-200 hover:bg-purple-200 drop-shadow'}`}>{page.name}</Button>
+                <Button className={`m-2 hover:outline hover:outline-1 outline-violet-200 ${isActive && 'bg-purple-200 hover:bg-purple-200 drop-shadow outline-transparent'}`}>{page.name}</Button>
               </Link>
             </li>
           );
