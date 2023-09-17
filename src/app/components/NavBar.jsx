@@ -13,7 +13,7 @@ const NAVLINKS = [
 export default function NavBar() {
   const pathname = usePathname();
   return (
-    <Box className="self-center md:self-end mt-auto m-4">
+    <Box>
       <ul className="flex flex-row">
         {NAVLINKS.map((page) => {
           const isActive = pathname === page.path;

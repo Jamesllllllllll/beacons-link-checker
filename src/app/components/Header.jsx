@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { authOptions } from './../api/auth/[...nextauth]/route';
 import { getServerSession } from 'next-auth';
 import { signIn, signOut, useSession } from 'next-auth/react';
+import NavBar from './NavBar';
 import SignIn from './SignIn';
 import SignOut from './SignOut';
 import AppBar from '@mui/material/AppBar';
@@ -14,8 +15,14 @@ export default async function Header() {
   const avatar = session?.user?.image;
   const name = session?.user?.name;
   return (
-    <AppBar position="static" color="transparent" className="py-2" sx={{ boxShadow: 'none' }}>
-      <Toolbar sx={{ justifyContent: 'end' }}>
+    <AppBar
+      position="static"
+      color="transparent"
+      className="py-2"
+      sx={{ boxShadow: 'none' }}
+    >
+      <Toolbar className="justify-between align-start">
+        <NavBar />
         {!session && <SignIn />}
         {session && <SignOut name={name} avatar={avatar} />}
       </Toolbar>

@@ -4,7 +4,6 @@ import Paper from '@mui/material/Paper';
 import Header from './components/Header';
 import { Provider } from './components/provider';
 import { ThemeProvider } from '@mui/material/styles';
-import NavBar from './components/NavBar';
 import { purpleTheme } from './components/purpleTheme';
 
 const inter = Inter({
@@ -35,7 +34,6 @@ export default function RootLayout({ children }) {
                 <main className="flex flex-col items-center justify-start gap-8 w-full h-full sm:px-16">
                   {children}
                 </main>
-                <NavBar />
               </Paper>
             </div>
           </Provider>
