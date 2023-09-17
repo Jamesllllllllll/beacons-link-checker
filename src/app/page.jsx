@@ -9,6 +9,7 @@ import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import SingleLink from './components/SingleLink';
+import { deepPurple } from '@mui/material/colors';
 import { LinearProgress } from '@mui/material';
 import { TransitionGroup } from 'react-transition-group';
 
@@ -101,7 +102,7 @@ export default function Home() {
               variant="contained"
               size="medium"
               className="self-center"
-              sx={{ backgroundColor: 'purple !important' }}
+              sx={{ backgroundColor: 'rgb(103, 58, 183) !important' }}
               // !important because it seems Inter resets button background color to transparent in layout.jsx, but dispabling doesn't fix it?
             >
               Go
@@ -141,15 +142,6 @@ export default function Home() {
         )}
 
         {error && <div>There was an error: {error}</div>}
-        {process.env.NODE_ENV === 'development' && (
-          <Button
-            onClick={runCRON}
-            variant="outlined"
-            sx={{ width: 300, alignSelf: 'center' }}
-          >
-            Run CRON Job
-          </Button>
-        )}
       </div>
     </>
   );

@@ -12,6 +12,8 @@ export default function SignIn() {
           e.preventDefault();
           signIn('google');
         }}
+        variant="outlined"
+        className="bg-white"
       >
         Sign in
       </Button>

@@ -94,7 +94,7 @@ export default function SingleLink({ url, delay, in: inProp }) {
           className="flex flex-row justify-between mb-10 p-8"
           key={url}
         >
-          <Link href={url} key={trimmedURL} className="break-all">
+          <Link href={url} key={trimmedURL} className="break-all text-sm pr-6">
             {trimmedURL}
           </Link>
           {status === 'Checking Link-purple' ? (

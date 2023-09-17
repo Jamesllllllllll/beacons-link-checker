@@ -4,10 +4,14 @@ import Paper from '@mui/material/Paper';
 import Header from './components/Header';
 import { Provider } from './components/provider';
 import { ThemeProvider } from '@mui/material/styles';
-import BottomNavigation from './components/BottomNavigation';
+import NavBar from './components/NavBar';
 import { purpleTheme } from './components/purpleTheme';
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-inter',
+});
 
 export const metadata = {
   title: 'Check Your Beacons Links',
@@ -16,7 +20,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${inter.variable}`}>
       <ThemeProvider theme={purpleTheme}>
         <body className={inter.className}>
           <Provider>
@@ -25,11 +29,13 @@ export default function RootLayout({ children }) {
               <Paper
                 variant="outlined"
                 color="neutral"
-                className="flex flex-col items-center justify-start rounded-3xl shadow-lg px-2 gap-8 bg-gradient-radial from-white to-purple-50 w-11/12 py-0 lg:w-3/4"
+                className="flex flex-col items-center justify-start rounded-2xl shadow-lg p-2 gap-8 bg-gradient-radial from-white to-purple-50 w-11/12 lg:w-3/4"
               >
                 <Header />
-                <main className="flex flex-col items-center justify-start gap-8 w-full h-full sm:px-16">{children}</main>
-                <BottomNavigation />
+                <main className="flex flex-col items-center justify-start gap-8 w-full h-full sm:px-16">
+                  {children}
+                </main>
+                <NavBar />
               </Paper>
             </div>
           </Provider>

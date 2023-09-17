@@ -14,7 +14,7 @@ export default async function Header() {
   const avatar = session?.user?.image;
   const name = session?.user?.name;
   return (
-    <AppBar position="static" color="transparent" className="pt-2" sx={{ boxShadow: 'none' }}>
+    <AppBar position="static" color="transparent" className="py-2" sx={{ boxShadow: 'none' }}>
       <Toolbar sx={{ justifyContent: 'end' }}>
         {!session && <SignIn />}
         {session && <SignOut name={name} avatar={avatar} />}

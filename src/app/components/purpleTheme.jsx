@@ -1,9 +1,9 @@
 'use client'
 import { createTheme } from '@mui/material';
-import { purple } from '@mui/material/colors';
+import { deepPurple } from '@mui/material/colors';
 
 export const purpleTheme = createTheme({
   palette: {
-    primary: purple,
+    primary: deepPurple,
   },
 });
