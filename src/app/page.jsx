@@ -102,7 +102,7 @@ export default function Home() {
               variant="contained"
               size="medium"
               className="self-center"
-              sx={{ backgroundColor: 'rgb(103, 58, 183) !important' }}
+              disabled={isLoading}
               // !important because it seems Inter resets button background color to transparent in layout.jsx, but dispabling doesn't fix it?
             >
               Go
