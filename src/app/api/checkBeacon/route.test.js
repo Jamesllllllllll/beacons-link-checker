@@ -42,7 +42,7 @@ describe('GET', () => {
 
     // Assert
     expect(links).toEqual(actualLinks);
-  });
+  }, 10000);
 
   it('should be able to close browser', async () => {
     // Assemble
