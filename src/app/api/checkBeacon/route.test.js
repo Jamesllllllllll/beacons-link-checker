@@ -1,3 +1,4 @@
+import jestConfig from '../../../../jest.config';
 import { startBrowser, goToSite, fetchLinks } from './route';
 
 describe('GET', () => {
