@@ -2,7 +2,7 @@ import './globals.css';
 import { Inter } from 'next/font/google';
 import Paper from '@mui/material/Paper';
 import Header from './components/Header';
-import { ContextProvider } from './context/appContext';
+import { ContextProvider } from './context/AppContext';
 import { Provider } from './components/provider';
 import { ThemeProvider } from '@mui/material/styles';
 import { StyledEngineProvider } from '@mui/material/styles';
