@@ -89,13 +89,6 @@ export default function Home() {
               size="medium"
               inputRef={inputRef}
               autoFocus
-              // InputProps={{
-              //   startAdornment: (
-              //     <InputAdornment position="start" className="font-bold mx-px">
-
-              //     </InputAdornment>
-              //   ),
-              // }}
               value={username}
               onChange={handleChange}
               onSubmit={checkBeacons}
@@ -116,11 +109,9 @@ export default function Home() {
       <div className="flex flex-col gap-y-4 w-11/12">
         {/* Show loading state */}
         {isLoading && (
-          // <div className="self-center">
           <Box sx={{ width: 300, alignSelf: 'center' }}>
             <LinearProgress />
           </Box>
-          // </div>
         )}
 
         {/* Show title if links exist */}

@@ -23,8 +23,8 @@ export default async function Header() {
     >
       <Toolbar className="justify-between align-start">
         <NavBar />
-        {!session && <SignIn />}
-        {session && <SignOut name={name} avatar={avatar} />}
+        {/* {!session && <SignIn />}
+        {session && <SignOut name={name} avatar={avatar} />} */}
       </Toolbar>
     </AppBar>
   );
