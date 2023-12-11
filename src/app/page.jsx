@@ -9,10 +9,9 @@ import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import SingleLink from './components/SingleLink';
-import { deepPurple } from '@mui/material/colors';
 import { LinearProgress } from '@mui/material';
 import { TransitionGroup } from 'react-transition-group';
-import { AppContext } from './context/appContext';
+import { AppContext } from './context/AppContext';
 
 export default function Home() {
   const [username, setUsername] = useState('');
