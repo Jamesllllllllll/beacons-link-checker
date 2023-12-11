@@ -88,7 +88,6 @@ export default function Home() {
               required
               size="medium"
               inputRef={inputRef}
-              autoFocus
               value={username}
               onChange={handleChange}
               onSubmit={checkBeacons}
