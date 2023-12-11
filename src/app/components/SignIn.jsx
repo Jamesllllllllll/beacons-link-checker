@@ -1,6 +1,6 @@
-'use client';
+'use client'
 import { signIn } from 'next-auth/react';
-import Button from '@mui/joy/Button';
+import Button from '@mui/material/Button';
 
 export default function SignIn() {
   return (
@@ -10,8 +10,10 @@ export default function SignIn() {
         href={`/api/auth/signin`}
         onClick={(e) => {
           e.preventDefault();
-          signIn('email');
+          signIn('google');
         }}
+        variant="outlined"
+        className="bg-white"
       >
         Sign in
       </Button>
