@@ -114,11 +114,11 @@ export default function Home() {
           </Stack>
         </Tooltip>
       </Paper>
-      <div className="flex flex-col gap-y-4 w-11/12">
+      <div className="flex flex-col items-center gap-y-4 w-11/12">
         {welcome && (
           <>
             <Fade in={welcome} out={!welcome}>
-              <Alert severity="info" sx={{ m: 4, backgroundColor: '#d5fffe' }}>
+              <Alert severity="info" sx={{ mx: 'auto', my: 4 , backgroundColor: '#d5fffe' }}>
                 <Typography sx={{ fontWeight: 700 }}>
                   What is this for?
                 </Typography>
@@ -132,7 +132,7 @@ export default function Home() {
               Don&apos;t have a Beacons Account? Try out the tool with one of
               these usernames:
             </Typography>
-            <Stack direction="row" gap={4}>
+            <Stack direction="row" gap={4} flexWrap="wrap">
               <Button
                 variant="outlined"
                 onClick={() => setUsername('duckytheyorkie')}
@@ -160,7 +160,7 @@ export default function Home() {
 
         {/* Show heading if links exist */}
         {links.length > 0 && links[0] !== 'No links found' && (
-          <Stack direction="row" justifyContent="space-between">
+          <Stack direction="row" justifyContent="space-between" className="w-full">
             <h2 className="text-xl font-semibold m-0">Your Beacons Links:</h2>
             <Button
               onClick={() => {

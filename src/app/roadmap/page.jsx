@@ -1,6 +1,6 @@
 export default function RoadMap() {
   return (
-    <ul className="self-start">
+    <ul className="self-start px-6">
       <li className="mb-8">
         <p className="font-semibold">User registration</p>
         <ul className="my-2">

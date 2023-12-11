@@ -7,6 +7,8 @@ import SignIn from './SignIn';
 import SignOut from './SignOut';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import GitHubIcon from '@mui/icons-material/GitHub';
 // import { usePathname } from 'next/navigation';
 
 export default async function Header() {
@@ -25,6 +27,7 @@ export default async function Header() {
         <NavBar />
         {/* {!session && <SignIn />}
         {session && <SignOut name={name} avatar={avatar} />} */}
+        <IconButton aria-label="GitHub" color="primary" href="https://github.com/Jamesllllllllll/beacons-link-checker"><GitHubIcon /></IconButton>
       </Toolbar>
     </AppBar>
   );

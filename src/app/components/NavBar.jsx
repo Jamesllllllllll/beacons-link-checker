@@ -28,7 +28,7 @@ export default function NavBar() {
         {NAVLINKS.map((page) => {
           const isActive = pathname === page.path;
           return (
-            <ListItem key={page.name} className="px-2">
+            <ListItem key={page.name} className="px-1">
               <Link
                 href={page.path}
                 className="no-underline hover:no-underline"
