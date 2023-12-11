@@ -10,7 +10,7 @@ export async function GET(req, res) {
     const { status } = response;
     return new NextResponse(JSON.stringify({ data: status }), {
       status: 200,
-      cache: 'no-store',
+      cache: 'no-cache',
     });
   } catch (error) {
     console.log(`Error: ${error}`);

@@ -8,6 +8,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 import PolicyRoundedIcon from '@mui/icons-material/PolicyRounded';
+import RampRightIcon from '@mui/icons-material/RampRight';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { usePathname } from 'next/navigation';
 
@@ -15,6 +16,7 @@ const NAVLINKS = [
   { path: '/', name: 'Home', icon: <HomeRoundedIcon /> },
   { path: '/impressum', name: 'Impressum', icon: <InfoRoundedIcon /> },
   { path: '/privacy', name: 'Privacy', icon: <PolicyRoundedIcon /> },
+  { path: '/roadmap', name: 'Roadmap', icon: <RampRightIcon /> },
 ];
 
 export default function NavBar() {

@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useContext, useRef } from 'react';
+import React, { useState, useContext, useRef, useEffect } from 'react';
 import FormLabel from '@mui/material/FormLabel';
 import InputBase from '@mui/material/InputBase';
 import Button from '@mui/material/Button';
@@ -8,6 +8,8 @@ import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
+import Alert from '@mui/material/Alert';
+import Fade from '@mui/material/Fade';
 import SingleLink from './components/SingleLink';
 import { LinearProgress } from '@mui/material';
 import { TransitionGroup } from 'react-transition-group';
@@ -18,12 +20,20 @@ export default function Home() {
   const { links, setLinks } = useContext(AppContext);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [welcome, setWelcome] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setWelcome(true);
+    }, 1000);
+  }, []);
 
   const checkBeacons = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setError(null);
     setLinks([]);
+    setWelcome(false);
     try {
       const response = await fetch(`/api/checkBeacon?username=${username}`, {
         method: 'GET',
@@ -98,7 +108,6 @@ export default function Home() {
               size="medium"
               className="self-center"
               disabled={isLoading}
-              // !important because it seems Inter resets button background color to transparent in layout.jsx, but dispabling doesn't fix it?
             >
               Go
             </Button>
@@ -106,14 +115,50 @@ export default function Home() {
         </Tooltip>
       </Paper>
       <div className="flex flex-col gap-y-4 w-11/12">
-        {/* Show loading state */}
+        {welcome && (
+          <>
+            <Fade in={welcome} out={!welcome}>
+              <Alert severity="info" sx={{ m: 4, backgroundColor: '#d5fffe' }}>
+                <Typography sx={{ fontWeight: 700 }}>
+                  What is this for?
+                </Typography>
+                <Typography>
+                  Check for broken links on your <em>Link in Bio</em> page so
+                  your fans always have access to your content.
+                </Typography>
+              </Alert>
+            </Fade>
+            <Typography>
+              Don&apos;t have a Beacons Account? Try out the tool with one of
+              these usernames:
+            </Typography>
+            <Stack direction="row" gap={4}>
+              <Button
+                variant="outlined"
+                onClick={() => setUsername('duckytheyorkie')}
+              >
+                duckytheyorkie
+              </Button>
+              <Button variant="outlined" onClick={() => setUsername('michael')}>
+                michael
+              </Button>
+              <Button
+                variant="outlined"
+                onClick={() => setUsername('techwithandrea')}
+              >
+                techwithandrea
+              </Button>
+            </Stack>
+          </>
+        )}
+
         {isLoading && (
           <Box sx={{ width: 300, alignSelf: 'center' }}>
             <LinearProgress />
           </Box>
         )}
 
-        {/* Show title if links exist */}
+        {/* Show heading if links exist */}
         {links.length > 0 && links[0] !== 'No links found' && (
           <Stack direction="row" justifyContent="space-between">
             <h2 className="text-xl font-semibold m-0">Your Beacons Links:</h2>

@@ -52,6 +52,9 @@ export default function James() {
         </Stack>
       </CardContent>
       <CardActions className="justify-center mb-2">
+      <Button variant="outlined" size="small" href="https://github.com/mdwiltfong/">
+          GitHub
+        </Button>
         <Button
           variant="outlined"
           size="small"

@@ -59,6 +59,9 @@ export default function James() {
         <Button variant="outlined" size="small" href="https://jameskeezer.dev">
           Website
         </Button>
+        <Button variant="outlined" size="small" href="https://github.com/Jamesllllllllll">
+          GitHub
+        </Button>
         <Button
           variant="outlined"
           size="small"
