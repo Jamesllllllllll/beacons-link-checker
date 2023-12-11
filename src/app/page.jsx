@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useContext, useRef } from 'react';
 import FormLabel from '@mui/material/FormLabel';
 import InputBase from '@mui/material/InputBase';
 import Button from '@mui/material/Button';
@@ -12,10 +12,11 @@ import SingleLink from './components/SingleLink';
 import { deepPurple } from '@mui/material/colors';
 import { LinearProgress } from '@mui/material';
 import { TransitionGroup } from 'react-transition-group';
+import { AppContext } from './context/appContext';
 
 export default function Home() {
   const [username, setUsername] = useState('');
-  const [links, setLinks] = useState([]);
+  const { links, setLinks } = useContext(AppContext);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -51,6 +52,7 @@ export default function Home() {
   };
 
   const [open, setOpen] = useState(true);
+  const inputRef = useRef();
 
   return (
     <>
@@ -86,6 +88,8 @@ export default function Home() {
               placeholder="username"
               required
               size="medium"
+              inputRef={inputRef}
+              autoFocus
               // InputProps={{
               //   startAdornment: (
               //     <InputAdornment position="start" className="font-bold mx-px">
@@ -122,7 +126,20 @@ export default function Home() {
 
         {/* Show title if links exist */}
         {links.length > 0 && links[0] !== 'No links found' && (
-          <h2 className="text-xl font-semibold">Your Beacons Links:</h2>
+          <Stack direction="row" justifyContent="space-between">
+            <h2 className="text-xl font-semibold m-0">Your Beacons Links:</h2>
+            <Button
+              onClick={() => {
+                setLinks([]);
+                setUsername('');
+                inputRef.current.focus();
+              }}
+              variant="outlined"
+              size="small"
+            >
+              Clear
+            </Button>
+          </Stack>
         )}
 
         {/* Show links, otherwise show none found */}
