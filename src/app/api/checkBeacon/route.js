@@ -58,11 +58,9 @@ export async function goToSite(browser, url) {
 }
 
 export async function fetchLinks(page) {
-  // const noAccount = await page.$x("//div[contains(text()='No Beacons account associated with')]");
-  // if (noAccount) {
-  //   console.log('No account with this username.')
-  //   console.log(noAccount)
-  // }
+
+  await page.waitForSelector('svg');
+
   const links = await page.$$eval('.RowLink', (links) => {
     links = links
       .map((el) => el.querySelector('a').href)
@@ -77,6 +75,19 @@ export async function fetchLinks(page) {
     }
     return linkObjects;
   });
+
+  const noAccountFound = await page.evaluate((searchText) => {
+    const allElements = Array.from(document.querySelectorAll('*'));
+    return allElements.some((element) =>
+      element.textContent.includes(searchText)
+    );
+  }, 'No Beacons account associated with');
+
+  if (noAccountFound) {
+    console.log('No Beacons account associated with this URL.');
+    links.push('No account associated with this username');
+  }
+
   console.log(links);
   return links;
 }

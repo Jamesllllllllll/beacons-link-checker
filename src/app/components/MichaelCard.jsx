@@ -9,9 +9,9 @@ import {
   Button,
 } from '@mui/material';
 
-export default function James() {
+export default function Michael() {
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 315 }}>
       <CardMedia
         sx={{ height: 225 }}
         image="/images/michael.jpg"
@@ -27,7 +27,7 @@ export default function James() {
         </Typography>
         <Stack
           sx={{
-            minWidth: 300,
+            minWidth: 280,
             justifyContent: 'space-around',
             flexFlow: 'row wrap',
             gap: '0.75rem',

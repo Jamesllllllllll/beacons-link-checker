@@ -17,16 +17,9 @@ import { AppContext } from './context/AppContext';
 
 export default function Home() {
   const [username, setUsername] = useState('');
-  const { links, setLinks } = useContext(AppContext);
+  const { links, setLinks, welcome, setWelcome } = useContext(AppContext);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [welcome, setWelcome] = useState(false);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setWelcome(true);
-    }, 1000);
-  }, []);
 
   const checkBeacons = async (e) => {
     e.preventDefault();
@@ -117,8 +110,11 @@ export default function Home() {
       <div className="flex flex-col items-center gap-y-4 w-11/12">
         {welcome && (
           <>
-            <Fade in={welcome} out={!welcome}>
-              <Alert severity="info" sx={{ mx: 'auto', my: 4 , backgroundColor: '#d5fffe' }}>
+            <Fade in={welcome} out={!welcome} timeout={1000}>
+              <Alert
+                severity="info"
+                sx={{ mx: 'auto', my: 4, backgroundColor: '#d5fffe' }}
+              >
                 <Typography sx={{ fontWeight: 700 }}>
                   What is this for?
                 </Typography>
@@ -128,27 +124,25 @@ export default function Home() {
                 </Typography>
               </Alert>
             </Fade>
-            <Typography>
-              Don&apos;t have a Beacons Account? Try out the tool with one of
-              these usernames:
-            </Typography>
-            <Stack direction="row" gap={4} flexWrap="wrap">
-              <Button
-                variant="outlined"
-                onClick={() => setUsername('duckytheyorkie')}
-              >
-                duckytheyorkie
-              </Button>
-              <Button variant="outlined" onClick={() => setUsername('michael')}>
-                michael
-              </Button>
-              <Button
-                variant="outlined"
-                onClick={() => setUsername('techwithandrea')}
-              >
-                techwithandrea
-              </Button>
-            </Stack>
+            <Fade in={welcome} out={!welcome} timeout={2000}>
+              <Typography>
+                Don&apos;t have a Beacons Account? Try out the tool with one of
+                these usernames:
+              </Typography>
+            </Fade>
+            <Fade in={welcome} out={!welcome} timeout={3000}>
+              <Stack direction="row" gap={4} flexWrap="wrap">
+                <Button
+                  variant="outlined"
+                  onClick={() => setUsername('duckytheyorkie')}
+                >
+                  duckytheyorkie
+                </Button>
+                <Button variant="outlined" onClick={() => setUsername('james')}>
+                  james
+                </Button>
+              </Stack>
+            </Fade>
           </>
         )}
 
@@ -158,26 +152,36 @@ export default function Home() {
           </Box>
         )}
 
-        {/* Show heading if links exist */}
-        {links.length > 0 && links[0] !== 'No links found' && (
-          <Stack direction="row" justifyContent="space-between" className="w-full">
-            <h2 className="text-xl font-semibold m-0">Your Beacons Links:</h2>
-            <Button
-              onClick={() => {
-                setLinks([]);
-                setUsername('');
-                inputRef.current.focus();
-              }}
-              variant="outlined"
-              size="small"
-            >
-              Clear
-            </Button>
-          </Stack>
+        {links[0] === 'No account associated with this username' && (
+          <p>No account associated with this username</p>
         )}
 
-        {/* Show links, otherwise show none found */}
-        {links[0] !== 'No links found' ? (
+        {/* Show heading if links exist */}
+        {links.length > 0 &&
+          links[0] !== 'No links found' &&
+          links[0] !== 'No account associated with this username' && (
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              className="w-full"
+            >
+              <h2 className="text-xl font-semibold m-0">Your Beacons Links:</h2>
+              <Button
+                onClick={() => {
+                  setLinks([]);
+                  setUsername('');
+                  inputRef.current.focus();
+                }}
+                variant="outlined"
+                size="small"
+              >
+                Clear
+              </Button>
+            </Stack>
+          )}
+
+        {/* Show links */}
+        {links[0] !== 'No account associated with this username' && (
           <TransitionGroup>
             {links.map((link) => (
               <SingleLink
@@ -188,9 +192,10 @@ export default function Home() {
               />
             ))}
           </TransitionGroup>
-        ) : (
-          <p>No links found</p>
         )}
+
+        {/* If user is found but no links exist */}
+        {links[0] === 'No links found' && <p>No links found</p>}
 
         {error && <div>There was an error: {error}</div>}
       </div>
