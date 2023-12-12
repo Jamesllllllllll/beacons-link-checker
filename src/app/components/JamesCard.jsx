@@ -8,10 +8,13 @@ import {
   CardActions,
   Button,
 } from '@mui/material';
+import LanguageIcon from '@mui/icons-material/Language';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
 
 export default function James() {
   return (
-    <Card sx={{ maxWidth: 315 }}>
+    <Card sx={{ maxWidth: 325 }} variant="outlined">
       <CardMedia
         sx={{ height: 225 }}
         image="/images/jamesbike.png"
@@ -44,11 +47,6 @@ export default function James() {
             className="rounded"
           />
           <img
-            src="https://img.shields.io/badge/Material%20UI-007FFF?style=for-the-badge&logo=mui&logoColor=white"
-            alt="MaterialUI"
-            className="rounded"
-          />
-          <img
             src="https://img.shields.io/badge/Tailwind_CSS-38bdf8?style=for-the-badge&logo=tailwind-css&logoColor=white"
             alt="Tailwind CSS"
             className="rounded"
@@ -56,16 +54,18 @@ export default function James() {
         </Stack>
       </CardContent>
       <CardActions className="justify-center mb-2">
-        <Button variant="outlined" size="small" href="https://jameskeezer.dev">
+        <Button variant="outlined" size="small" href="https://jameskeezer.dev" startIcon={<LanguageIcon />} sx={{ textTransform: 'none' }}>
           Website
         </Button>
-        <Button variant="outlined" size="small" href="https://github.com/Jamesllllllllll">
+        <Button variant="outlined" size="small" href="https://github.com/Jamesllllllllll" startIcon={<GitHubIcon />} sx={{ textTransform: 'none' }}>
           GitHub
         </Button>
         <Button
           variant="outlined"
           size="small"
           href="https://linkedin.com/in/jameskeezer"
+          startIcon={<LinkedInIcon />}
+          sx={{ textTransform: 'none' }}
         >
           LinkedIn
         </Button>

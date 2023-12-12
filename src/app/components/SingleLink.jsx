@@ -93,8 +93,9 @@ export default function SingleLink({ url, delay, in: inProp }) {
           style={{ ...defaultStyle, ...transitionStyles[state] }}
           className="flex flex-row justify-between mb-10 p-8"
           key={url}
+          role="listitem"
         >
-          <Link href={url} key={trimmedURL} className="break-all text-sm pr-6">
+          <Link href={url} key={trimmedURL} rel="nofollow noopener" className="break-all text-sm pr-6">
             {trimmedURL}
           </Link>
           {status === 'Checking Link-purple' ? (
@@ -103,6 +104,7 @@ export default function SingleLink({ url, delay, in: inProp }) {
               // eslint-disable-next-line quotes
               src={`https://img.shields.io/badge/Status: - Checking Link-purple`}
               alt={status}
+              aria-hidden="true"
             />
           ) : (
             <Badge className="h-[20px] justify-self-end" />

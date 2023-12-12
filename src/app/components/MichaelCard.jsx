@@ -8,10 +8,12 @@ import {
   CardActions,
   Button,
 } from '@mui/material';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
 
 export default function Michael() {
   return (
-    <Card sx={{ maxWidth: 315 }}>
+    <Card sx={{ maxWidth: 325 }} variant="outlined">
       <CardMedia
         sx={{ height: 225 }}
         image="/images/michael.jpg"
@@ -52,13 +54,15 @@ export default function Michael() {
         </Stack>
       </CardContent>
       <CardActions className="justify-center mb-2">
-      <Button variant="outlined" size="small" href="https://github.com/mdwiltfong/">
+      <Button variant="outlined" size="small" startIcon={<GitHubIcon />}href="https://github.com/mdwiltfong/" sx={{ textTransform: 'none' }}>
           GitHub
         </Button>
         <Button
           variant="outlined"
           size="small"
-          href="https://www.linkedin.com/in/michael-wiltfong"
+          href="https://linkedin.com/in/michael-wiltfong"
+          startIcon={<LinkedInIcon />}
+          sx={{ textTransform: 'none' }}
         >
           LinkedIn
         </Button>

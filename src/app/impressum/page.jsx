@@ -25,7 +25,7 @@ export default function Impressum() {
   return (
     <Stack
       direction="row"
-      spacing={{ xs: 2, sm: 4 }}
+      gap={2}
       useFlexGap
       flexWrap="wrap"
       alignItems="start"

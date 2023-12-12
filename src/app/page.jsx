@@ -49,10 +49,6 @@ export default function Home() {
     setUsername(e.target.value);
   };
 
-  const runCRON = () => {
-    fetch('/api/weeklyCron');
-  };
-
   const [open, setOpen] = useState(true);
   const inputRef = useRef();
 
