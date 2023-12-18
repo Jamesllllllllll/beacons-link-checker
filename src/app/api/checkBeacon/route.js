@@ -92,6 +92,8 @@ export async function fetchLinks(page) {
   return links;
 }
 
+export const maxDuration = 300; // This function can run for a maximum of 300 seconds
+
 export async function GET(req, res) {
   console.log('checkBeacon running...');
   const username = req.nextUrl.searchParams.get('username');
