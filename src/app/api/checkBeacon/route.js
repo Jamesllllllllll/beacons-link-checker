@@ -59,8 +59,8 @@ export async function goToSite(browser, url) {
 
 export async function fetchLinks(page) {
 
-  await page.waitForSelector('.MuiContainer-root');
-
+  await page.waitForSelector('#root');
+  
   const links = await page.$$eval('.RowLink', (links) => {
     links = links
       .map((el) => el.querySelector('a').href)
