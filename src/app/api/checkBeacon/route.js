@@ -59,7 +59,7 @@ export async function goToSite(browser, url) {
 
 export async function fetchLinks(page) {
 
-  await page.waitForSelector('svg');
+  await page.waitForSelector('.MuiContainer-root');
 
   const links = await page.$$eval('.RowLink', (links) => {
     links = links
