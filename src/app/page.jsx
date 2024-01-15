@@ -14,6 +14,7 @@ import SingleLink from './components/SingleLink';
 import { LinearProgress } from '@mui/material';
 import { TransitionGroup } from 'react-transition-group';
 import { AppContext } from './context/AppContext';
+import LoadingMessage from './components/LoadingMessage'
 
 export default function Home() {
   const [username, setUsername] = useState('');
@@ -51,6 +52,15 @@ export default function Home() {
 
   const [open, setOpen] = useState(true);
   const inputRef = useRef();
+  
+  const messages = [
+    'Thanks for trying our tool!',
+    'This will take 10-20 seconds...',
+    "A 'Headless' browser is loading up your profile",
+    'It will scan the page for your links, then we will check each one',
+    'If there are any broken links, you will see their status and can check for yourself!',
+    'Any second now..!',
+  ]
 
   return (
     <>
@@ -145,6 +155,7 @@ export default function Home() {
         {isLoading && (
           <Box sx={{ width: 300, alignSelf: 'center' }}>
             <LinearProgress />
+            <LoadingMessage messages={messages} />
           </Box>
         )}
 
