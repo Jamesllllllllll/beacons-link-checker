@@ -112,8 +112,10 @@ export async function GET(req, res) {
 
   const links = await fetchLinks(page);
 
-  console.log(`Links with delay:\n${JSON.stringify(links)}`);
-
+  console.log(`Links:\n${JSON.stringify(links)}`);
+  if (links.length === 0) {
+    return new NextResponse(JSON.stringify({ status: 404 }))
+  }
   console.log('Closing browser...');
 
   const pages = await browser.pages();
