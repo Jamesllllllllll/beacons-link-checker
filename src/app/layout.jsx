@@ -25,15 +25,15 @@ export default function RootLayout({ children }) {
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={purpleTheme}>
           <body
-            className={`${inter.className} flex flex-col justify-stretch min-h-[95%]`}
+            className={`${inter.className} flex flex-col justify-center min-h-screen m-0`}
           >
             <ContextProvider>
               <Provider>
-                <div className="flex justify-center py-4 sm:py-24">
+                <div className="flex justify-center">
                   <Paper
                     variant="outlined"
                     color="neutral"
-                    className="flex flex-col items-stretch justify-start rounded-2xl shadow-lg p-2 gap-8 bg-gradient-radial from-white to-purple-50 w-[800] w-[800px] min-h-[90vh] sm:min-h-[75vh]"
+                    className="flex flex-col items-stretch justify-start sm:rounded-2xl shadow-lg sm:p-2 gap-8 bg-gradient-radial from-white to-purple-50 w-[800] w-[800px] min-h-screen sm:min-h-min sm:m-4"
                   >
                     <Header />
                     <main className="flex flex-col items-center justify-start gap-8 pb-16 sm:px-16 min-h-[500px]">
