@@ -37,7 +37,7 @@ export default function Home() {
         const { data } = await response.json();
         setLinks(data);
       } else {
-        setError(response);
+        setError(JSON.stringify(response));
         throw new Error(response);
       }
     } catch (err) {
