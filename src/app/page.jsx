@@ -20,12 +20,14 @@ export default function Home() {
   const [username, setUsername] = useState('');
   const { links, setLinks, welcome, setWelcome } = useContext(AppContext);
   const [isLoading, setIsLoading] = useState(false);
+  const [showLoadingMessages, setShowLoadingMessages] = useState=(true);
   const [error, setError] = useState(null);
 
   const checkBeacons = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setError(null);
+    setShowLoadingMessages(false);
     setLinks([]);
     setWelcome(false);
     try {
@@ -155,7 +157,7 @@ export default function Home() {
         {isLoading && (
           <Box sx={{ width: 300, alignSelf: 'center' }}>
             <LinearProgress />
-            <LoadingMessage messages={messages} />
+            {showLoadingMessages && <LoadingMessage messages={messages} />}
           </Box>
         )}
 
