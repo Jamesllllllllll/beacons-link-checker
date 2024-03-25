@@ -176,28 +176,26 @@ export default function Home() {
         )}
 
         {/* Show heading if links exist */}
-        {links.length > 0 &&
-          links[0] !== 'No links found' &&
-          links[0] !== 'No account associated with this username' && (
-            <Stack
-              direction="row"
-              justifyContent="space-between"
-              className="w-full"
+        {links.length > 0 && (
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            className="w-full"
+          >
+            <h2 className="text-xl font-semibold m-0">Your Beacons Links:</h2>
+            <Button
+              onClick={() => {
+                setLinks([]);
+                setUsername('');
+                inputRef.current.focus();
+              }}
+              variant="outlined"
+              size="small"
             >
-              <h2 className="text-xl font-semibold m-0">Your Beacons Links:</h2>
-              <Button
-                onClick={() => {
-                  setLinks([]);
-                  setUsername('');
-                  inputRef.current.focus();
-                }}
-                variant="outlined"
-                size="small"
-              >
-                Clear
-              </Button>
-            </Stack>
-          )}
+              Clear
+            </Button>
+          </Stack>
+        )}
 
         {/* Show links */}
         {error !== 'No account associated with this username' && (
