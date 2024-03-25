@@ -58,10 +58,9 @@ export async function goToSite(browser, url) {
 }
 
 export async function fetchLinks(page) {
-
   await page.waitForSelector('#root');
-  
-  const links = await page.$$eval('.RowLink', (links) => {
+  let message;
+  let links = await page.$$eval('.RowLink', (links) => {
     links = links
       .map((el) => el.querySelector('a').href)
       .filter((link) => !link.startsWith('https://beacons'));
@@ -76,20 +75,17 @@ export async function fetchLinks(page) {
     return linkObjects;
   });
 
-  const noAccountFound = await page.evaluate((searchText) => {
-    const allElements = Array.from(document.querySelectorAll('*'));
-    return allElements.some((element) =>
-      element.textContent.includes(searchText)
-    );
-  }, 'No Beacons account associated with');
+  const noAccountFound = await page.evaluate(() => {
+    const pageText = document.body.textContent;
+    return pageText.includes('No Beacons account associated with');
+  });
 
-  if (noAccountFound) {
+  if (noAccountFound.length !== 0) {
     console.log('No Beacons account associated with this URL.');
-    links.push('No account associated with this username');
+    message = 'No account associated with this username';
   }
 
-  console.log(links);
-  return links;
+  return { links, message };
 }
 
 export const maxDuration = 300; // This function can run for a maximum of 300 seconds
@@ -110,14 +106,9 @@ export async function GET(req, res) {
 
   const page = await goToSite(browser, url);
 
-  const links = await fetchLinks(page);
+  const { links, message } = await fetchLinks(page);
 
-  console.log(`Links:\n${JSON.stringify(links)}`);
-  if (links.length === 0) {
-    return new NextResponse(JSON.stringify({ status: 404 }))
-  }
   console.log('Closing browser...');
-
   const pages = await browser.pages();
 
   for (let i = 0; i < pages.length; i++) {
@@ -129,5 +120,7 @@ export async function GET(req, res) {
   browser.close();
   console.log('Browser closed.');
 
-  return new NextResponse(JSON.stringify({ data: links }), { status: 200 });
+  return new NextResponse(
+    JSON.stringify({ links: links , message: message }, { status: 200 })
+  );
 }

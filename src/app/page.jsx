@@ -20,30 +20,43 @@ export default function Home() {
   const [username, setUsername] = useState('');
   const { links, setLinks, welcome, setWelcome } = useContext(AppContext);
   const [isLoading, setIsLoading] = useState(false);
-  const [showLoadingMessages, setShowLoadingMessages] = useState=(true);
+  const [showLoadingMessages, setShowLoadingMessages] = useState(true);
   const [error, setError] = useState(null);
+  
+  const checkBeacons = async () => {
+    try {
+      const response = await fetch(`/api/checkBeacon?username=${username}`, {
+        method: 'GET',
+      });
+      if (response.ok) {
+        const data = await response.json();
+        if (data.links) {
+          setLinks(data.links);
+        }
+        if (data.message) {
+          setError(data.message)
+        }
+      } else {
+        setError(response.statusText);
+        return new Error(response.statusText);
+      }
+    } catch (err) {
+      setError(err)
+    }
+  };
 
-  const checkBeacons = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setError(null);
     setShowLoadingMessages(false);
     setLinks([]);
     setWelcome(false);
-    try {
-      const response = await fetch(`/api/checkBeacon?username=${username}`, {
-        method: 'GET',
-      });
-      console.log(response);
-      if (response.ok) {
-        const { data } = await response.json();
-        setLinks(data);
-      } else {
-        setError(JSON.stringify(response));
-        throw new Error(response);
-      }
-    } catch (err) {
-      console.log(`There was an error: ${err}`);
+    await checkBeacons();
+    if (error === 'Internal Server Error') {
+      console.log('Retrying...')
+      setError('Retrying...')
+      await checkBeacons();
     }
     setIsLoading(false);
   };
@@ -61,7 +74,7 @@ export default function Home() {
     "A 'Headless' browser is loading up your profile",
     'It will scan the page for your links, then we will check each one',
     'If there are any broken links, you will see their status and can check for yourself!',
-    'Any second now..!',
+    'Working...',
   ];
 
   return (
@@ -101,10 +114,10 @@ export default function Home() {
               inputRef={inputRef}
               value={username}
               onChange={handleChange}
-              onSubmit={checkBeacons}
+              onSubmit={handleSubmit}
             />
             <Button
-              onClick={checkBeacons}
+              onClick={handleSubmit}
               variant="contained"
               size="medium"
               className="self-center"
@@ -161,10 +174,6 @@ export default function Home() {
           </Box>
         )}
 
-        {links[0] === 'No account associated with this username' && (
-          <p>No account associated with this username</p>
-        )}
-
         {/* Show heading if links exist */}
         {links.length > 0 &&
           links[0] !== 'No links found' &&
@@ -190,7 +199,7 @@ export default function Home() {
           )}
 
         {/* Show links */}
-        {links[0] !== 'No account associated with this username' && (
+        {error !== 'No account associated with this username' && (
           <TransitionGroup>
             {links.map((link) => (
               <SingleLink
@@ -203,10 +212,7 @@ export default function Home() {
           </TransitionGroup>
         )}
 
-        {/* If user is found but no links exist */}
-        {links[0] === 'No links found' && <p>No links found</p>}
-
-        {error && <div>There was an error: {error}</div>}
+        {error && <div>{error}</div>}
       </div>
     </>
   );
