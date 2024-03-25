@@ -81,6 +81,7 @@ export async function fetchLinks(page) {
   });
 
   if (noAccountFound.length !== 0) {
+    console.log(noAccountFound)
     console.log('No Beacons account associated with this URL.');
     message = 'No account associated with this username';
   }
