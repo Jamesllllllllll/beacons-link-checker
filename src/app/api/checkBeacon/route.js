@@ -59,7 +59,7 @@ export async function goToSite(browser, url) {
 
 export async function fetchLinks(page) {
   await page.waitForSelector('#root');
-  let message;
+  let message = '';
   let links = await page.$$eval('.RowLink', (links) => {
     links = links
       .map((el) => el.querySelector('a').href)
@@ -75,18 +75,18 @@ export async function fetchLinks(page) {
     return linkObjects;
   });
 
-  const noAccountFound = await page.evaluate(() => {
-    const pageText = document.body.textContent;
-    return pageText.includes('No Beacons account associated with');
+  const noAccountFound = await page.$$eval('center', (centerElements) => {
+    return centerElements.map(center => center.textContent.includes('No Beacons account associated with'));
   });
 
   if (noAccountFound) {
-    console.log(noAccountFound)
+    console.log(noAccountFound);
     console.log('No Beacons account associated with this URL.');
-    message = 'No account associated with this username';
+    const message = 'No account associated with this username';
+    return { links: [], message };
   }
-  console.log(links)
-  console.log(message)
+  console.log(links);
+  console.log(message);
   return { links, message };
 }
 
@@ -123,6 +123,6 @@ export async function GET(req, res) {
   console.log('Browser closed.');
 
   return new NextResponse(
-    JSON.stringify({ links: links , message: message }, { status: 200 })
+    JSON.stringify({ links: links, message: message }, { status: 200 })
   );
 }

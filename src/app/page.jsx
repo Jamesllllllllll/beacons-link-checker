@@ -22,7 +22,9 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [showLoadingMessages, setShowLoadingMessages] = useState(true);
   const [error, setError] = useState(null);
-
+  const [open, setOpen] = useState(true);
+  const inputRef = useRef();
+  
   const checkBeacons = async () => {
     try {
       const response = await fetch(`/api/checkBeacon?username=${username}`, {
@@ -72,9 +74,6 @@ export default function Home() {
   const handleChange = (e) => {
     setUsername(e.target.value);
   };
-
-  const [open, setOpen] = useState(true);
-  const inputRef = useRef();
 
   const messages = [
     'Thanks for trying our tool!',
