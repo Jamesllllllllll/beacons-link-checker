@@ -54,14 +54,19 @@ export default function Home() {
     setError(null);
     setLinks([]);
     setWelcome(false);
-    await checkBeacons();
-    if (error === 'Internal Server Error') {
-      console.log('Retrying...');
-      setError('Retrying...');
+    try {
       await checkBeacons();
+      if (error === 'Internal Server Error') {
+        console.log('Retrying...');
+        setError('Retrying...');
+        await checkBeacons();
+      }
+      setShowLoadingMessages(false);
+    } catch (err) {
+      setError(err);
+    } finally {
+      setIsLoading(false);
     }
-    setShowLoadingMessages(false);
-    setIsLoading(false);
   };
 
   const handleChange = (e) => {
