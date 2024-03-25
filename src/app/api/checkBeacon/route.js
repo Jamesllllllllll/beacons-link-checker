@@ -84,7 +84,8 @@ export async function fetchLinks(page) {
     console.log('No Beacons account associated with this URL.');
     message = 'No account associated with this username';
   }
-
+  console.log(links)
+  console.log(message)
   return { links, message };
 }
 

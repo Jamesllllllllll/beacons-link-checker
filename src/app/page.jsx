@@ -22,7 +22,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [showLoadingMessages, setShowLoadingMessages] = useState(true);
   const [error, setError] = useState(null);
-  
+
   const checkBeacons = async () => {
     try {
       const response = await fetch(`/api/checkBeacon?username=${username}`, {
@@ -34,14 +34,15 @@ export default function Home() {
           setLinks(data.links);
         }
         if (data.message) {
-          setError(data.message)
+          setError(data.message);
         }
       } else {
         setError(response.statusText);
         return new Error(response.statusText);
       }
     } catch (err) {
-      setError(err)
+      setError(err);
+      return new Error(response.statusText);
     }
   };
 
@@ -49,15 +50,15 @@ export default function Home() {
     e.preventDefault();
     setIsLoading(true);
     setError(null);
-    setShowLoadingMessages(false);
     setLinks([]);
     setWelcome(false);
     await checkBeacons();
     if (error === 'Internal Server Error') {
-      console.log('Retrying...')
-      setError('Retrying...')
+      console.log('Retrying...');
+      setError('Retrying...');
       await checkBeacons();
     }
+    setShowLoadingMessages(false);
     setIsLoading(false);
   };
 
