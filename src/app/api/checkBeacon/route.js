@@ -80,7 +80,7 @@ export async function fetchLinks(page) {
     return pageText.includes('No Beacons account associated with');
   });
 
-  if (noAccountFound.length !== 0) {
+  if (!noAccountFound.length) {
     console.log(noAccountFound)
     console.log('No Beacons account associated with this URL.');
     message = 'No account associated with this username';

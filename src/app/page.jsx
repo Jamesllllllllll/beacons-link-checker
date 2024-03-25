@@ -31,9 +31,11 @@ export default function Home() {
       if (response.ok) {
         const data = await response.json();
         if (data.links) {
+          console.log(data.links)
           setLinks(data.links);
         }
         if (data.message) {
+          console.log(data.message)
           setError(data.message);
         }
       } else {
