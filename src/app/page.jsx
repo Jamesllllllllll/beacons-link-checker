@@ -24,7 +24,7 @@ export default function Home() {
   const [error, setError] = useState(null);
   const [open, setOpen] = useState(true);
   const inputRef = useRef();
-  
+
   const checkBeacons = async () => {
     try {
       const response = await fetch(`/api/checkBeacon?username=${username}`, {
@@ -138,7 +138,7 @@ export default function Home() {
       <div className="flex flex-col items-center gap-y-4 w-11/12">
         {welcome && (
           <>
-            <Fade in={welcome} out={!welcome} timeout={1000}>
+            <Fade in={welcome} timeout={1000}>
               <Alert
                 severity="info"
                 sx={{ mx: 'auto', my: 4, backgroundColor: '#d5fffe' }}
@@ -152,13 +152,13 @@ export default function Home() {
                 </Typography>
               </Alert>
             </Fade>
-            <Fade in={welcome} out={!welcome} timeout={2000}>
+            <Fade in={welcome} timeout={2000}>
               <Typography>
                 Don&apos;t have a Beacons Account? Try out the tool with one of
                 these usernames:
               </Typography>
             </Fade>
-            <Fade in={welcome} out={!welcome} timeout={3000}>
+            <Fade in={welcome} timeout={3000}>
               <Stack direction="row" gap={4} flexWrap="wrap">
                 <Button
                   variant="outlined"

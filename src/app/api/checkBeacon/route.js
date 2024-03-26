@@ -52,42 +52,65 @@ export async function startBrowser() {
 export async function goToSite(browser, url) {
   const page = await browser.newPage();
   console.log(`Navigating to ${url}`);
-  await page.goto(url);
+  console.log('waiting for dom content to load...');
+  await page.goto(url, { waitUnit: 'domcontentloaded' });
   console.log(`Arrived at ${await page.url()}`);
   return page;
 }
 
 export async function fetchLinks(page) {
-  await page.waitForSelector('#root');
-  let message = '';
-  let links = await page.$$eval('.RowLink', (links) => {
-    links = links
-      .map((el) => el.querySelector('a').href)
-      .filter((link) => !link.startsWith('https://beacons'));
-    const linkObjects = links.map(function (link) {
-      return { url: link, delay: null };
+  try {
+    await page.waitForSelector('body');
+    let message = '';
+    console.log('initializing noaccountfound...');
+
+    const centerCount = await page.$$eval('center', (centers) => {
+      return centers.map((center) => center.textContent);
     });
-    let delay = 0;
-    for (let i = 0; i < linkObjects.length; i++) {
-      linkObjects[i].delay = delay;
-      delay += 200;
-    }
-    return linkObjects;
-  });
+    console.log(centerCount);
+    const noAccountFound = await page.$$eval('center', (centerElements) => {
+      console.log('Looking for center elements...');
+      return centerElements.some((center) => {
+        return center.textContent.includes(
+          'No Beacons account associated with'
+        );
+      });
+    });
 
-  const noAccountFound = await page.$$eval('center', (centerElements) => {
-    return centerElements.map(center => center.textContent.includes('No Beacons account associated with'));
-  });
-
-  if (noAccountFound) {
+    console.log('noAccountFound:');
     console.log(noAccountFound);
-    console.log('No Beacons account associated with this URL.');
-    const message = 'No account associated with this username';
-    return { links: [], message };
+    if (noAccountFound) {
+      console.log('No Beacons account associated with this URL.');
+      const message = 'No account associated with this username';
+      return { links: [], message };
+    }
+
+    await page.waitForSelector('body'); // Wait for the body to be present
+    const bodyHTML = await page.$eval('body', (body) => body.innerHTML);
+    console.log(bodyHTML);
+
+    let links = await page.$$eval('.RowLink', (links) => {
+      links = links
+        .map((el) => el.querySelector('a').href)
+        .filter((link) => !link.startsWith('https://beacons'));
+      const linkObjects = links.map(function (link) {
+        return { url: link, delay: null };
+      });
+      let delay = 0;
+      for (let i = 0; i < linkObjects.length; i++) {
+        linkObjects[i].delay = delay;
+        delay += 200;
+      }
+      return linkObjects;
+    });
+
+    console.log(links);
+    console.log(message);
+    return { links, message };
+  } catch (error) {
+    console.error('Error fetching links:', error);
+    return { links: [], message: 'Error fetching links' };
   }
-  console.log(links);
-  console.log(message);
-  return { links, message };
 }
 
 export const maxDuration = 300; // This function can run for a maximum of 300 seconds
