@@ -30,16 +30,14 @@ export default function RootLayout({ children }) {
             <ContextProvider>
               <Provider>
                 <div className="flex justify-center">
-                  <Paper
-                    variant="outlined"
-                    color="neutral"
+                  <div
                     className="flex flex-col items-stretch justify-start sm:rounded-2xl shadow-lg sm:p-2 gap-8 bg-gradient-radial from-white to-purple-50 w-[800] w-[800px] min-h-screen sm:min-h-min sm:m-4"
                   >
                     <Header />
                     <main className="flex flex-col items-center justify-start gap-8 pb-16 sm:px-16 min-h-[500px]">
                       {children}
                     </main>
-                  </Paper>
+                  </div>
                 </div>
               </Provider>
             </ContextProvider>

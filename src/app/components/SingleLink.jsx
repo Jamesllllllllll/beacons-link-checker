@@ -14,6 +14,9 @@ export default function SingleLink({ url, delay, in: inProp }) {
       case 200:
         message = 'OK!-green';
         break;
+      case 400:
+        message = 'Bad request-red';
+        break;
       case 404:
         message = 'Not Found-red';
         break;
@@ -95,7 +98,12 @@ export default function SingleLink({ url, delay, in: inProp }) {
           key={url}
           role="listitem"
         >
-          <Link href={url} key={trimmedURL} rel="nofollow noopener" className="break-all text-sm pr-6">
+          <Link
+            href={url}
+            key={trimmedURL}
+            rel="nofollow noopener"
+            className="break-all text-sm pr-6"
+          >
             {trimmedURL}
           </Link>
           {status === 'Checking Link-purple' ? (

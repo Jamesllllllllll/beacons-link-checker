@@ -58,51 +58,50 @@ export async function goToSite(browser, url) {
   return page;
 }
 
-export async function fetchLinks(page) {
+export async function fetchLinks(page, url) {
   try {
-    await page.waitForSelector('body');
+    await page.waitForSelector('a');
     let message = '';
     console.log('initializing noaccountfound...');
 
-    const centerCount = await page.$$eval('center', (centers) => {
-      return centers.map((center) => center.textContent);
-    });
-    console.log(centerCount);
+    const links = await page.$$eval(
+      'a',
+      (anchorTags, url) => {
+        let delay = 0;
+        return anchorTags
+          .map((anchor) => anchor.href)
+          .filter((href) => {
+            return (
+              !href.startsWith(url) &&
+              !href.startsWith('https://account.beacons.ai/signup') &&
+              !href.startsWith('https://beacons.ai/signup')
+            );
+          })
+          .map((href) => ({
+            url: href,
+            delay: (delay += 200),
+          }));
+      },
+      url // url from fetchLinks is being passed to page.$$eval here
+    );
+
+    console.log(links);
+
+    await page.waitForSelector('center');
     const noAccountFound = await page.$$eval('center', (centerElements) => {
-      console.log('Looking for center elements...');
-      return centerElements.some((center) => {
-        return center.textContent.includes(
-          'No Beacons account associated with'
-        );
-      });
+      return centerElements.some((center) =>
+        center.textContent.includes('No Beacons account associated with')
+      );
     });
 
     console.log('noAccountFound:');
     console.log(noAccountFound);
+
     if (noAccountFound) {
       console.log('No Beacons account associated with this URL.');
       const message = 'No account associated with this username';
       return { links: [], message };
     }
-
-    await page.waitForSelector('body'); // Wait for the body to be present
-    const bodyHTML = await page.$eval('body', (body) => body.innerHTML);
-    console.log(bodyHTML);
-
-    let links = await page.$$eval('.RowLink', (links) => {
-      links = links
-        .map((el) => el.querySelector('a').href)
-        .filter((link) => !link.startsWith('https://beacons'));
-      const linkObjects = links.map(function (link) {
-        return { url: link, delay: null };
-      });
-      let delay = 0;
-      for (let i = 0; i < linkObjects.length; i++) {
-        linkObjects[i].delay = delay;
-        delay += 200;
-      }
-      return linkObjects;
-    });
 
     console.log(links);
     console.log(message);
@@ -131,7 +130,7 @@ export async function GET(req, res) {
 
   const page = await goToSite(browser, url);
 
-  const { links, message } = await fetchLinks(page);
+  const { links, message } = await fetchLinks(page, url);
 
   console.log('Closing browser...');
   const pages = await browser.pages();

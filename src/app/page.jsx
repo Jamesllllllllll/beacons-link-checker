@@ -14,6 +14,7 @@ import SingleLink from './components/SingleLink';
 import { LinearProgress } from '@mui/material';
 import { TransitionGroup } from 'react-transition-group';
 import { AppContext } from './context/AppContext';
+import FormControl from '@mui/material';
 import LoadingMessage from './components/LoadingMessage';
 
 export default function Home() {
@@ -33,11 +34,11 @@ export default function Home() {
       if (response.ok) {
         const data = await response.json();
         if (data.links) {
-          console.log(data.links)
+          console.log(data.links);
           setLinks(data.links);
         }
         if (data.message) {
-          console.log(data.message)
+          console.log(data.message);
           setError(data.message);
         }
       } else {
@@ -86,55 +87,55 @@ export default function Home() {
 
   return (
     <>
-      <Paper
-        component="form"
-        sx={{
-          // p: '2px 4px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-        className="mx-4 sm:mx-0"
-        onSubmit={checkBeacons}
-      >
-        <FormLabel className="sr-only">Enter your Beacons username</FormLabel>
-        <Tooltip
-          title="Check your Beacons page for broken links"
-          arrow
-          enterDelay={500}
-          leaveDelay={200}
-          open={open}
-          onFocus={() => setOpen(false)}
+        <Paper
+        component='form'
+          sx={{
+            // p: '2px 4px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+          className="mx-4 sm:mx-0"
+          onSubmit={handleSubmit}
         >
-          <Stack
-            direction="row"
-            alignItems="center"
-            width="100%"
-            className="p-2"
+          <FormLabel className="sr-only">Enter your Beacons username</FormLabel>
+          <Tooltip
+            title="Check your Beacons page for broken links"
+            arrow
+            enterDelay={500}
+            leaveDelay={200}
+            open={open}
+            onFocus={() => setOpen(false)}
           >
-            <Typography className="font-bold ml-2">beacons.ai/</Typography>
-            <InputBase
-              className="pl-[2px] mt-[1px]"
-              placeholder="username"
-              required
-              size="medium"
-              inputRef={inputRef}
-              value={username}
-              onChange={handleChange}
-              onSubmit={handleSubmit}
-            />
-            <Button
-              onClick={handleSubmit}
-              variant="contained"
-              size="medium"
-              className="self-center"
-              disabled={isLoading}
+            <Stack
+              direction="row"
+              alignItems="center"
+              width="100%"
+              className="p-2"
             >
-              Go
-            </Button>
-          </Stack>
-        </Tooltip>
-      </Paper>
+              <Typography className="font-bold ml-2">beacons.ai/</Typography>
+              <InputBase
+                className="pl-[2px] mt-[1px]"
+                placeholder="username"
+                required
+                size="medium"
+                inputRef={inputRef}
+                value={username}
+                onChange={handleChange}
+                onSubmit={handleSubmit}
+              />
+              <Button
+                onClick={handleSubmit}
+                variant="contained"
+                size="medium"
+                className="self-center"
+                disabled={isLoading}
+              >
+                Go
+              </Button>
+            </Stack>
+          </Tooltip>
+        </Paper>
       <div className="flex flex-col items-center gap-y-4 w-11/12">
         {welcome && (
           <>
@@ -177,7 +178,6 @@ export default function Home() {
         {isLoading && (
           <Box sx={{ width: 300, alignSelf: 'center' }}>
             <LinearProgress />
-            {showLoadingMessages && <LoadingMessage messages={messages} />}
           </Box>
         )}
 

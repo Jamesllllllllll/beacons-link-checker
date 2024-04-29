@@ -11,6 +11,7 @@ export async function GET(req, res) {
     const response = await fetch(url, {
       cache: 'no-store',
     });
+    console.log(`response: ${response}`)
     const { status } = response;
     console.log(`status: ${status}`);
     return new NextResponse(JSON.stringify({ data: status }), {
@@ -19,6 +20,7 @@ export async function GET(req, res) {
     });
   } catch (error) {
     console.log(`Error: ${error}`);
+    console.log(`error.cause.code: ${error.cause.code}`)
     return NextResponse.json(
       { error: 'Internal Server Error' },
       { status: error.cause.code }
