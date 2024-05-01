@@ -50,19 +50,20 @@ export async function startBrowser() {
 }
 
 export async function goToSite(browser, url) {
-  const page = await browser.newPage();
-  console.log(`Navigating to ${url}`);
-  console.log('waiting for dom content to load...');
-  await page.goto(url, { waitUnit: 'domcontentloaded' });
-  console.log(`Arrived at ${await page.url()}`);
-  return page;
+  try {
+    const page = await browser.newPage();
+    console.log(`Navigating to ${url}`);
+    console.log(`Arrived at ${await page.url()}`);
+    return page;
+  } catch (err) {
+    console.log('Could not navigate to page => ', err);
+  }
 }
 
 export async function fetchLinks(page, url) {
   try {
     await page.waitForSelector('a');
     let message = '';
-    console.log('initializing noaccountfound...');
 
     const links = await page.$$eval(
       'a',
@@ -94,13 +95,11 @@ export async function fetchLinks(page, url) {
       );
     });
 
-    console.log('noAccountFound:');
-    console.log(noAccountFound);
+    console.log('noAccountFound:', noAccountFound);
 
     if (noAccountFound) {
       console.log('No Beacons account associated with this URL.');
-      const message = 'No account associated with this username';
-      return { links: [], message };
+      return { links: [], message: 'No account associated with this username' };
     }
 
     console.log(links);
@@ -127,9 +126,10 @@ export async function GET(req, res) {
   }
 
   const browser = await startBrowser();
-
+  console.log('Browser: ', browser);
   const page = await goToSite(browser, url);
-
+  console.log('Page: ', page);
+  
   const { links, message } = await fetchLinks(page, url);
 
   console.log('Closing browser...');
