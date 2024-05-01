@@ -53,7 +53,8 @@ export async function goToSite(browser, url) {
   try {
     const page = await browser.newPage();
     console.log(`Navigating to ${url}`);
-    console.log(`Arrived at ${await page.url()}`);
+    await page.goto(url)
+    console.log(page)
     return page;
   } catch (err) {
     console.log('Could not navigate to page => ', err);
@@ -129,7 +130,7 @@ export async function GET(req, res) {
   console.log('Browser: ', browser);
   const page = await goToSite(browser, url);
   console.log('Page: ', page);
-  
+
   const { links, message } = await fetchLinks(page, url);
 
   console.log('Closing browser...');
